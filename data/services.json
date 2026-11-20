@@ -1,38 +1,45 @@
 [
   {
-    "id": "industrial-iot",
-    "icon": "router",
-    "title": "Industrial IoT",
-    "summary": "Industrial IoT solutions for enhancing operational efficiency."
+    "id": "machine-vision",
+    "icon": "center_focus_strong",
+    "title": "Machine Vision",
+    "summary": "Vision-based inspection, detection, tracking and counting systems operating with real-time capability."
+  },
+  {
+    "id": "robotics",
+    "icon": "precision_manufacturing",
+    "title": "Robotics",
+    "summary": "Robotic arm pick-and-place, material handling and autonomous vehicle operation, integrated into existing production environments."
   },
   {
     "id": "digital-twin",
     "icon": "model_training",
     "title": "Digital Twin",
-    "summary": "Creating virtual replicas for precise monitoring."
+    "summary": "Virtual replicas of plant and equipment for live monitoring, adaptive control and predictive maintenance."
   },
   {
-    "id": "control-systems",
+    "id": "iiot",
+    "icon": "sensors",
+    "title": "Industrial IoT (IIoT)",
+    "summary": "Connected sensors and machines delivering live production data to centralised interfaces and control systems."
+  },
+  {
+    "id": "applied-ai",
+    "icon": "neurology",
+    "title": "Applied AI",
+    "summary": "Machine learning on operational data for forecasting, classification, anomaly detection and natural language interfaces."
+  },
+  {
+    "id": "scada-plc",
     "icon": "schema",
-    "title": "Control System Integration",
-    "summary": "Custom PLC, HMI development and full automation system design."
-  },
-  {
-    "id": "industrial-drafting",
-    "icon": "architecture",
-    "title": "Industrial Drafting",
-    "summary": "Professional AutoCAD layouts and P&IDs for facility upgrades."
+    "title": "SCADA & PLC Control Systems",
+    "summary": "PLC programming, HMI development and SCADA integration for plant automation and supervisory control."
   },
   {
     "id": "mechanical-design",
     "icon": "3d_rotation",
     "title": "Mechanical Design & Simulation",
-    "summary": "Professional services using SolidWorks, CATIA, ANSYS and COMSOL simulation."
-  },
-  {
-    "id": "panel-design",
-    "icon": "electrical_services",
-    "title": "Electrical Panel Box Design",
-    "summary": "Design and build of electrical control panels tailored to your needs."
+    "summary": "Mechanical and facility design, CAD modelling, FEA and CFD analysis.",
+    "tools": "SolidWorks · CATIA · Revit · Navisworks"
   }
 ]

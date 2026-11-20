@@ -1,6 +1,6 @@
 <!--
 title: Services — Chrisentia Consultancy
-description: Electrical supply, automation design and IIoT integration. Digital twins and custom electrical control panel fabrication for Sri Lankan industry.
+description: Machine vision, robotics, digital twin, industrial IoT, applied AI, SCADA and PLC control systems, and mechanical design for manufacturing in Sri Lanka.
 canonicalPath: services.html
 -->
 <!DOCTYPE html>
@@ -22,65 +22,55 @@ canonicalPath: services.html
   <main id="main">
 
     <!-- Hero -->
-    <section class="pt-40 pb-20 px-4 md:px-16 relative overflow-hidden reveal">
-      <div class="max-w-7xl mx-auto text-center space-y-6">
-        <span class="text-slate-800 font-bold tracking-widest uppercase">Our Services</span>
-        <h1 class="font-h1 text-4xl sm:text-5xl md:text-7xl font-bold text-on-surface">Tailored automation solutions
+    <section class="pt-40 pb-16 px-4 md:px-16 relative overflow-hidden reveal">
+      <div class="max-w-4xl mx-auto text-center space-y-6">
+        <span class="text-slate-800 font-bold tracking-widest uppercase text-sm">Services</span>
+        <h1 class="font-h1 text-4xl sm:text-5xl md:text-7xl font-bold text-on-surface">
+          Intelligence, applied to production
         </h1>
         <p class="text-xl text-on-surface-variant max-w-2xl mx-auto">
-          Designed to boost your industrial efficiency and empower industry progress.
+          Seven capabilities, combined as each operation requires, from a single vision cell to a connected plant.
         </p>
+      </div>
+    </section>
 
-        <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-          <div
-            class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:-translate-y-2 transition-transform duration-300">
-            <span class="material-symbols-outlined text-4xl text-slate-800 mb-4" aria-hidden="true">bolt</span>
-            <h2 class="font-h3 text-2xl font-bold mb-3">Electrical Supply</h2>
-            <p class="text-on-surface-variant">Quality components to support your project needs and ensure reliable
-              electrical infrastructure.</p>
-          </div>
-          <div
-            class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:-translate-y-2 transition-transform duration-300">
-            <span class="material-symbols-outlined text-4xl text-slate-800 mb-4"
-              aria-hidden="true">precision_manufacturing</span>
-            <h2 class="font-h3 text-2xl font-bold mb-3">Automation Design</h2>
-            <p class="text-on-surface-variant">Custom system designs for optimal industrial automation, perfectly
-              matched to your workflow.</p>
-          </div>
-          <div
-            class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:-translate-y-2 transition-transform duration-300">
-            <span class="material-symbols-outlined text-4xl text-slate-800 mb-4" aria-hidden="true">hub</span>
-            <h2 class="font-h3 text-2xl font-bold mb-3">IIoT Integration</h2>
-            <p class="text-on-surface-variant">Seamless connection of devices for smarter operations, real-time data,
-              and analytics.</p>
-          </div>
+    <!-- Capabilities -->
+    <section class="pb-24 px-4 md:px-16 reveal">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {{servicesGrid}}
         </div>
       </div>
     </section>
 
-    <!-- Empowering Industry Progress -->
+    <!-- Approach -->
     <section class="py-24 px-4 md:px-16 bg-gradient-to-b from-slate-800 via-slate-750 to-slate-900 text-white reveal">
       <div class="max-w-7xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 class="font-h1 text-4xl md:text-5xl font-bold mb-6">Empowering Industry Progress</h2>
+            <h2 class="font-h1 text-4xl md:text-5xl font-bold mb-6">Built for the floor, not the lab</h2>
+            <p class="text-lg text-white/80 mb-6 leading-relaxed">
+              Systems are specified around the conditions they will actually run in: line speed, lighting, heat,
+              vibration, washdown and the people operating them. A model that performs on clean data and fails on a
+              moving conveyor is not a solution.
+            </p>
             <p class="text-lg text-white/80 mb-10 leading-relaxed">
-              At {{site.name}}, we bring automation dreams to life through tailored SCADA, IIoT, and AI solutions in
-              Sri Lanka. Our commitment to excellence ensures your industrial systems are modernized for the future.
+              Work spans the full path from sensing and control through to the analytics layer, so a deployed system
+              produces usable operational data rather than only doing its immediate job.
             </p>
 
             <div class="grid grid-cols-2 gap-8">
               <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10">
                 <div class="text-4xl text-white mb-2">
-                  <span data-target="{{site.stats.results}}">0</span>+
+                  <span data-target="{{site.stats.projects}}">0</span>+
                 </div>
-                <div class="font-bold text-white/90">Proven Results</div>
+                <div class="font-bold text-white/90">Projects Delivered</div>
               </div>
               <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10">
                 <div class="text-4xl text-white mb-2">
                   <span data-target="{{site.stats.experts}}">0</span>
                 </div>
-                <div class="font-bold text-white/90">Trusted Experts</div>
+                <div class="font-bold text-white/90">Engineers &amp; Specialists</div>
               </div>
             </div>
           </div>
@@ -89,14 +79,14 @@ canonicalPath: services.html
             class="relative w-full aspect-square md:aspect-video lg:aspect-square rounded-[3rem] overflow-hidden shadow-2xl">
             <video autoplay muted loop playsinline poster="images/hero-services.png" class="w-full h-full object-cover">
               <source src="videos/hero-services.mp4" type="video/mp4" />
-              <img src="images/hero-services.png" alt="Engineering team at work"
-                class="w-full h-full object-cover kinetic-rotate scale-125 origin-center" />
+              <img src="images/hero-services.png" alt="Engineering work in progress"
+                class="w-full h-full object-cover" />
             </video>
             <div class="absolute inset-0 bg-gradient-to-tr from-black/80 to-transparent"></div>
             <div class="absolute bottom-8 left-8 right-8">
               <div class="bg-black/40 backdrop-blur-md p-6 rounded-2xl border border-white/20">
                 <h3 class="text-xl font-bold mb-2">Engineering Excellence</h3>
-                <p class="text-white/70 text-sm">Transforming industries with innovative automation.</p>
+                <p class="text-white/70 text-sm">Specified, built and commissioned in production environments.</p>
               </div>
             </div>
           </div>
@@ -104,58 +94,9 @@ canonicalPath: services.html
       </div>
     </section>
 
-    <!-- Automation Excellence -->
-    <section class="py-24 px-4 md:px-16 bg-white reveal">
-      <div class="max-w-7xl mx-auto">
-        <div class="text-center max-w-3xl mx-auto mb-16">
-          <h2 class="font-h1 text-4xl md:text-5xl font-bold mb-4">Automation Excellence</h2>
-          <p class="text-lg text-on-surface-variant">Tailored SCADA and PLC solutions for industry.</p>
-        </div>
+    {{> clients}}
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <article
-            class="service-card rounded-[2.5rem] overflow-hidden bg-background shadow-lg border border-gray-100 group flex flex-col">
-            <div class="h-64 overflow-hidden relative">
-              <img src="images/structural-design.png" alt="Digital twin structural model" loading="lazy"
-                decoding="async"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-              <div class="absolute top-6 right-6 bg-primary text-white p-3 rounded-xl shadow-lg">
-                <span class="material-symbols-outlined" aria-hidden="true">dataset</span>
-              </div>
-              <h3 class="absolute bottom-6 left-6 right-6 text-white font-h3 text-3xl font-bold">1. Digital Twins</h3>
-            </div>
-            <div class="p-6 md:p-10 flex-grow">
-              <p class="text-on-surface-variant text-lg leading-relaxed">
-                Creating precise digital replicas of your facilities to optimize operations and foresee maintenance
-                needs, helping you save time and costs through predictive analytics.
-              </p>
-            </div>
-          </article>
-
-          <article
-            class="service-card rounded-[2.5rem] overflow-hidden bg-background shadow-lg border border-gray-100 group flex flex-col">
-            <div class="h-64 overflow-hidden relative">
-              <img src="images/service-fea.png" alt="Electrical panel fabrication analysis" loading="lazy"
-                decoding="async"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-              <div class="absolute top-6 right-6 bg-primary text-white p-3 rounded-xl shadow-lg">
-                <span class="material-symbols-outlined" aria-hidden="true">electrical_services</span>
-              </div>
-              <h3 class="absolute bottom-6 left-6 right-6 text-white font-h3 text-3xl font-bold">2. Panel Fabrication
-              </h3>
-            </div>
-            <div class="p-6 md:p-10 flex-grow">
-              <p class="text-on-surface-variant text-lg leading-relaxed">
-                Designing and building custom electrical control panels with quality components to ensure reliable
-                performance and seamless integration in your automation projects.
-              </p>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
+    {{> contact}}
 
   </main>
 

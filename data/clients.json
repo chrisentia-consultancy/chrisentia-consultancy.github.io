@@ -1,0 +1,15 @@
+{
+  "_comment_logos": "Drop logo files into images/clients/ named exactly after the slug below. Any extension works — svg, png, jpg, jpeg, webp, avif — the build finds whichever is there. A client with no logo file renders as a text tile automatically, so this list is safe to publish before all logos arrive.",
+  "_comment_permission": "Only set published:true once that client has agreed to be named. Anything false is skipped entirely.",
+
+  "clients": [
+    { "slug": "unilever",         "name": "Unilever",                     "published": true },
+    { "slug": "wichy-plantation", "name": "Wichy Plantation",             "published": true },
+    { "slug": "harumi-holdings",  "name": "Harumi Holdings",              "published": true },
+    { "slug": "pencil-cut",       "name": "Pencil Cut",                   "published": true },
+    { "slug": "neuralis-labs",    "name": "Neuralis Labs (Pvt) Ltd",      "published": true },
+    { "slug": "nature-food-grade","name": "Nature Food Grade (Pvt) Ltd",  "published": true },
+    { "slug": "wichy-beverages",  "name": "Wichy Beverages",              "published": true },
+    { "slug": "trade-promoters",  "name": "Trade Promoters Limited",      "published": true }
+  ]
+}

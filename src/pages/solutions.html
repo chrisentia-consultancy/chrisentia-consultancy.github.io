@@ -1,6 +1,6 @@
 <!--
-title: Solutions & Projects — Chrisentia Consultancy
-description: Automation projects delivered across Sri Lanka — PET bottle feeding systems, AI vision counting, smart retail shelving and 3D facility modelling.
+title: Projects — Chrisentia Consultancy
+description: Delivered automation projects — real-time vision-based counting with conveyor control, weight-sensing smart shelving, liquid level monitoring and facility layout modelling.
 canonicalPath: solutions.html
 -->
 <!DOCTYPE html>
@@ -22,70 +22,28 @@ canonicalPath: solutions.html
   <main id="main">
 
     <!-- Hero -->
-    <section class="min-h-[70vh] flex flex-col justify-center px-4 md:px-16 pt-32 pb-16 relative reveal">
-      <div class="absolute inset-0 z-0">
-        <img src="images/hero-solutions.png" alt="" aria-hidden="true" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-[#fff8f6]"></div>
-      </div>
-
-      <div class="max-w-7xl mx-auto w-full relative z-10 text-center text-white mt-20">
-        <span class="material-symbols-outlined text-6xl text-slate-800 mb-6 drop-shadow-lg" aria-hidden="true">hub</span>
-        <h1 class="font-h1 text-4xl sm:text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg">
-          Solutions &amp; Projects
+    <section class="pt-40 pb-16 px-4 md:px-16 relative overflow-hidden reveal">
+      <div class="max-w-4xl mx-auto text-center space-y-6">
+        <span class="text-slate-800 font-bold tracking-widest uppercase text-sm">Projects</span>
+        <h1 class="font-h1 text-4xl sm:text-5xl md:text-7xl font-bold text-on-surface">
+          Systems running in production
         </h1>
-        <p class="text-xl text-white/90 max-w-3xl mx-auto mb-10 drop-shadow-md">
-          Tailored automation solutions powering Sri Lanka's industries. We turn complex challenges into seamless
-          operational successes.
+        <p class="text-xl text-on-surface-variant max-w-2xl mx-auto">
+          Vision, sensing and modelling work delivered into working facilities across Sri Lanka.
         </p>
       </div>
     </section>
 
-    <!-- Projects -->
-    <section id="projects" class="py-24 px-4 md:px-16 bg-gradient-to-b from-white to-gray-50 reveal">
-      <div class="max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-          {{caseStudies}}
-        </div>
+    <!-- Project entries -->
+    <section id="projects" class="pb-12 px-4 md:px-16">
+      <div class="max-w-7xl mx-auto space-y-24 md:space-y-32">
+        {{caseStudies}}
       </div>
     </section>
 
-    <!-- About & Expertise -->
-    <section class="py-24 px-4 md:px-16 bg-white reveal">
-      <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
+    {{> clients}}
 
-        <div
-          class="bg-surface-dim/30 p-8 md:p-12 rounded-[2rem] md:rounded-[3rem] border border-gray-100 shadow-sm relative overflow-hidden">
-          <div class="absolute -top-10 -right-10 text-slate-800 opacity-5" aria-hidden="true">
-            <span class="material-symbols-outlined text-[15rem]">corporate_fare</span>
-          </div>
-          <h2 class="font-h2 text-4xl font-bold mb-6 relative z-10">About Chrisentia</h2>
-          <p class="text-on-surface-variant text-lg mb-8 leading-relaxed relative z-10">
-            We bring smart automation solutions to Sri Lanka's industries, blending advanced technology with practical,
-            robust design.
-          </p>
-          <a href="index.html#contact"
-            class="inline-flex items-center gap-2 bg-white text-on-surface px-6 py-3 rounded-full font-bold shadow-sm hover:shadow-md transition-shadow relative z-10 border border-gray-300">
-            Learn more
-          </a>
-        </div>
-
-        <div
-          class="bg-primary p-8 md:p-12 rounded-[2rem] md:rounded-[3rem] shadow-xl text-black relative overflow-hidden">
-          <div class="absolute -bottom-10 -right-10 text-black opacity-10" aria-hidden="true">
-            <span class="material-symbols-outlined text-[15rem]">psychology</span>
-          </div>
-          <h2 class="font-h2 text-4xl font-bold mb-6 relative z-10">Our Expertise</h2>
-          <p class="text-black/90 text-lg mb-8 leading-relaxed relative z-10">
-            From SCADA to AI, we design and deliver tailored automation systems that keep industries running smoothly,
-            efficiently, and profitably.
-          </p>
-          <a href="services.html"
-            class="inline-flex items-center gap-2 bg-white text-slate-800 px-6 py-3 rounded-full font-bold shadow-sm hover:scale-105 transition-transform relative z-10">
-            View our services
-          </a>
-        </div>
-      </div>
-    </section>
+    {{> contact}}
 
   </main>
 

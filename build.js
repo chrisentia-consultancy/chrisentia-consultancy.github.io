@@ -122,42 +122,210 @@ function renderServicesGrid(services) {
               <span class="material-symbols-outlined text-3xl text-slate-800" aria-hidden="true">${esc(service.icon)}</span>
             </div>
             <h3 class="font-h3 text-xl font-bold mb-3">${esc(service.title)}</h3>
-            <p class="text-on-surface-variant">${esc(service.summary)}</p>
+            <p class="text-on-surface-variant">${esc(service.summary)}</p>${
+              service.tools
+                ? `\n            <p class="service-tools">${esc(service.tools)}</p>`
+                : ''
+            }
           </div>`
     )
     .join('\n\n          ');
 }
 
+/* --- Project media ------------------------------------------------------- */
+
+/**
+ * Visuals for a project are whatever sits in images/projects/<slug>/.
+ *
+ * Nothing is configured per project. Files are sorted by name, so a numeric
+ * prefix (01-, 02-) sets the order and the first file becomes the hero.
+ * Video autoplays muted on loop. Two or more images become a crossfade
+ * carousel. An empty folder renders a typographic card rather than a gap,
+ * so a project can ship before its photographs exist.
+ */
+const VIDEO_EXTENSIONS = ['.mp4', '.webm', '.mov', '.m4v'];
+const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif'];
+
+function readProjectMedia(slug) {
+  const dir = path.join(ROOT, 'images', 'projects', slug);
+  if (!fs.existsSync(dir)) return { videos: [], images: [] };
+
+  const videos = [];
+  const images = [];
+
+  for (const file of fs.readdirSync(dir).sort()) {
+    if (file.startsWith('.')) continue;
+    const ext = path.extname(file).toLowerCase();
+    const rel = `images/projects/${slug}/${file}`;
+    if (VIDEO_EXTENSIONS.includes(ext)) videos.push(rel);
+    else if (IMAGE_EXTENSIONS.includes(ext)) images.push(rel);
+  }
+
+  return { videos, images };
+}
+
+/** The visual block for one project. `index` is 1-based, for the fallback card. */
+function renderProjectMedia(project, index) {
+  const { videos, images } = readProjectMedia(project.slug);
+  const label = esc(project.title);
+
+  if (!videos.length && !images.length) {
+    return `<div class="project-media project-media--empty">
+              <span class="project-media__index">${String(index).padStart(2, '0')}</span>
+              <span class="project-media__label">${label}</span>
+            </div>`;
+  }
+
+  // Video leads when present. No zoom — the framing is the client's, not ours.
+  if (videos.length) {
+    const poster = images.length ? ` poster="${esc(images[0])}"` : '';
+    return `<div class="project-media">
+              <video autoplay muted loop playsinline preload="metadata"${poster} aria-label="${label}">
+                <source src="${esc(videos[0])}" type="video/mp4" />
+              </video>
+            </div>`;
+  }
+
+  if (images.length === 1) {
+    return `<div class="project-media project-media--single">
+              <img src="${esc(images[0])}" alt="${label}" loading="lazy" decoding="async" />
+            </div>`;
+  }
+
+  const slides = images
+    .map(
+      (src, i) =>
+        `<img src="${esc(src)}" alt="${label}" loading="lazy" decoding="async"${i === 0 ? ' class="is-active"' : ''} />`
+    )
+    .join('\n                ');
+
+  const dots = images
+    .map(
+      (src, i) =>
+        `<button type="button" class="project-media__dot${i === 0 ? ' is-active' : ''}" data-slide="${i}" aria-label="Image ${i + 1} of ${images.length}"></button>`
+    )
+    .join('\n                ');
+
+  return `<div class="project-media project-media--carousel" data-carousel>
+              ${slides}
+              <div class="project-media__dots">
+                ${dots}
+              </div>
+            </div>`;
+}
+
+/** Home page: compact cards for every project. */
 function renderFeaturedProjects(projects) {
   return projects
     .map(
       (project, i) => `<article class="group">
-            <div class="overflow-hidden rounded-3xl mb-6 shadow-md relative aspect-video bg-gray-100">
-              <img src="${esc(project.image)}" alt="${esc(project.alt)}" loading="lazy" decoding="async"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-              <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors"></div>
-            </div>
-            <h3 class="font-h3 text-2xl font-bold mb-2 group-hover:text-slate-800 transition-colors">${i + 1}. ${esc(project.title)}</h3>
-            <p class="text-on-surface-variant">${esc(project.summary)}</p>
+            ${renderProjectMedia(project, i + 1)}
+            <h3 class="font-h3 text-2xl font-bold mt-6 mb-2">${esc(project.title)}</h3>
+            <p class="text-on-surface-variant">${esc(project.cardLine)}</p>
           </article>`
     )
     .join('\n\n          ');
 }
 
+/** Solutions page: full write-ups. */
 function renderCaseStudies(projects) {
   return projects
-    .map(
-      (project, i) => `<article class="project-card p-6 md:p-10 rounded-3xl relative overflow-hidden group">
-            <div class="project-number" aria-hidden="true">${String(i + 1).padStart(2, '0')}</div>
-            <h3 class="font-h3 text-2xl font-bold mb-4 pr-16 relative z-10">${esc(project.title)}</h3>
-            <p class="text-on-surface-variant text-lg mb-6 relative z-10">${esc(project.summary)}</p>
-            <div class="w-full h-48 rounded-2xl overflow-hidden mb-6">
-              <img src="${esc(project.image)}" alt="${esc(project.alt)}" loading="lazy" decoding="async"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+    .map((project, i) => {
+      const tags = (project.tags || [])
+        .map((t) => `<span class="project-tag">${esc(t)}</span>`)
+        .join('\n                ');
+      const body = project.body
+        .map((para) => `<p class="text-on-surface-variant text-lg leading-relaxed">${esc(para)}</p>`)
+        .join('\n              ');
+
+      return `<article class="project-entry reveal">
+            <div class="project-entry__media">
+              ${renderProjectMedia(project, i + 1)}
             </div>
-          </article>`
-    )
+            <div class="project-entry__body">
+              <div class="project-entry__number" aria-hidden="true">${String(i + 1).padStart(2, '0')}</div>
+              <h2 class="font-h2 text-3xl md:text-4xl font-bold mb-4">${esc(project.title)}</h2>
+              <div class="project-tags mb-6">
+                ${tags}
+              </div>
+              ${body}
+            </div>
+          </article>`;
+    })
     .join('\n\n          ');
+}
+
+/**
+ * Client logos.
+ *
+ * The logo file is found by slug, whatever its extension — drop
+ * images/clients/unilever.png or .svg or .jpg and it just works. A client
+ * with no file yet renders as a text tile instead of a broken image, so the
+ * list can go live before every logo has arrived.
+ *
+ * The track is duplicated so the marquee can loop seamlessly. The copy is
+ * aria-hidden so screen readers announce each client once.
+ */
+const LOGO_EXTENSIONS = ['.svg', '.png', '.webp', '.jpg', '.jpeg', '.avif'];
+
+function findLogo(slug) {
+  const dir = path.join(ROOT, 'images', 'clients');
+  if (!fs.existsSync(dir)) return null;
+  for (const ext of LOGO_EXTENSIONS) {
+    for (const candidate of [slug + ext, slug + ext.toUpperCase()]) {
+      if (fs.existsSync(path.join(dir, candidate))) {
+        return `images/clients/${candidate}`;
+      }
+    }
+  }
+  return null;
+}
+
+function renderClientLogos(clientsData) {
+  const clients = clientsData.clients.filter((c) => c.published);
+  if (!clients.length) return '';
+
+  let missing = 0;
+
+  const tile = (client, isClone) => {
+    const logo = findLogo(client.slug);
+    const hidden = isClone ? ' aria-hidden="true"' : '';
+    const role = isClone ? '' : ' role="listitem"';
+
+    if (!logo) {
+      if (!isClone) missing++;
+      return `<div class="logo-marquee__item logo-marquee__item--text"${role}${hidden}>
+            <span>${esc(client.name)}</span>
+          </div>`;
+    }
+
+    return `<div class="logo-marquee__item"${role}${hidden}>
+            <img src="${esc(logo)}" alt="${esc(client.name)}" loading="lazy" decoding="async" />
+          </div>`;
+  };
+
+  const once = clients.map((c) => tile(c, false)).join('\n          ');
+  const clone = clients.map((c) => tile(c, true)).join('\n          ');
+
+  if (missing) {
+    console.log(
+      `  note   ${missing} client logo(s) not found in images/clients/ — showing name tiles instead`
+    );
+  }
+
+  return `${once}\n          ${clone}`;
+}
+
+/** Phone list for the contact card (lighter styling than the footer's). */
+function renderContactPhoneList(site) {
+  return site.phones
+    .map(
+      (phone) => `<li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-slate-500" aria-hidden="true">phone_in_talk</span>
+              <a href="tel:${esc(phone.tel)}" class="hover:text-slate-800 font-semibold">${esc(phone.label)}</a>
+            </li>`
+    )
+    .join('\n            ');
 }
 
 function renderStructuredData(site) {
@@ -221,6 +389,7 @@ function build() {
   const site = readJSON(path.join(ROOT, 'data', 'site.json'));
   const services = readJSON(path.join(ROOT, 'data', 'services.json'));
   const projects = readJSON(path.join(ROOT, 'data', 'projects.json'));
+  const clients = readJSON(path.join(ROOT, 'data', 'clients.json'));
 
   const partials = {};
   const partialDir = path.join(SRC, 'partials');
@@ -239,9 +408,11 @@ function build() {
     year: new Date().getFullYear(),
     structuredData: renderStructuredData(site),
     phoneList: renderPhoneList(site),
+    contactPhoneList: renderContactPhoneList(site),
+    clientLogos: renderClientLogos(clients),
     servicesGrid: renderServicesGrid(services),
-    featuredProjects: renderFeaturedProjects(projects.featured),
-    caseStudies: renderCaseStudies(projects.caseStudies)
+    featuredProjects: renderFeaturedProjects(projects.projects),
+    caseStudies: renderCaseStudies(projects.projects)
   };
 
   const pageDir = path.join(SRC, 'pages');
