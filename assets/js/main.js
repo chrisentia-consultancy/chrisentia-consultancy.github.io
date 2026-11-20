@@ -111,10 +111,21 @@
       function (entries) {
         entries.forEach(function (entry) {
           if (!entry.isIntersecting) return;
-          var target = parseInt(entry.target.getAttribute('data-target'), 10);
-          if (!isNaN(target)) animateCounter(entry.target, target, 900);
-          // Run once, not on every scroll past.
-          observer.unobserve(entry.target);
+
+          var el = entry.target;
+          var target = parseInt(el.getAttribute('data-target'), 10);
+
+          // A stat column staggers its own entry, so the three in a band
+          // arrive one after another rather than all at once.
+          var stat = el.closest ? el.closest('.stat') : null;
+          var delay = stat ? parseInt(stat.getAttribute('data-delay'), 10) || 0 : 0;
+
+          window.setTimeout(function () {
+            if (stat) stat.classList.add('is-in');
+            if (!isNaN(target)) animateCounter(el, target, 900 + delay);
+          }, delay);
+
+          observer.unobserve(el);
         });
       },
       { threshold: 0.5 }
