@@ -406,9 +406,9 @@ section.bg-surface-dim {
 .logo-marquee__track {
   display: flex;
   align-items: center;
-  gap: 3.5rem;
+  gap: 6rem;
   width: max-content;
-  animation: logo-scroll 40s linear infinite;
+  animation: logo-scroll 55s linear infinite;
 }
 
 .logo-marquee:hover .logo-marquee__track,
@@ -424,7 +424,7 @@ section.bg-surface-dim {
 
 .logo-marquee__item {
   flex: 0 0 auto;
-  height: 4rem;
+  height: 7rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -432,7 +432,7 @@ section.bg-surface-dim {
 }
 
 .logo-marquee__item img {
-  max-height: 3.25rem;
+  max-height: 6rem;
   width: auto;
   object-fit: contain;
   opacity: 0.9;
@@ -448,12 +448,12 @@ section.bg-surface-dim {
 .logo-marquee__item--text span {
   display: inline-flex;
   align-items: center;
-  height: 3.25rem;
-  padding: 0 1.5rem;
+  height: 5rem;
+  padding: 0 2rem;
   border: 1px solid rgba(45, 55, 72, 0.12);
   border-radius: 9999px;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 1.15rem;
   color: #475569;
   white-space: nowrap;
   background: #fafbfc;
@@ -513,4 +513,36 @@ section.bg-surface-dim {
     opacity: 1;
     transform: none;
   }
+}
+
+/* --- Why Chrisentia list ------------------------------------------------- */
+
+.why-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.why-list li {
+  position: relative;
+  padding-left: 1.9rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* Tick drawn in CSS so it inherits colour and needs no icon font. */
+.why-list li::before {
+  content: '';
+  position: absolute;
+  left: 0.25rem;
+  top: 0.3rem;
+  width: 0.45rem;
+  height: 0.8rem;
+  border: solid #2d3748;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0.7;
 }
