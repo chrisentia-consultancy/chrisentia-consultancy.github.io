@@ -1,0 +1,36 @@
+{
+  "name": "Chrisentia Consultancy",
+  "tagline": "Industrial automation solutions for Sri Lanka",
+  "description": "Chrisentia Consultancy delivers industrial automation across Sri Lanka — SCADA, PLC, IIoT, digital twin, control panel design and mechanical simulation.",
+  "url": "https://chrisentia-consultancy.github.io",
+  "logo": "images/logo-chrisentia.jpeg",
+
+  "_comment_email": "TODO Layer 2: switch to info@chrisentia.com once that inbox is monitored. Changing it here updates every page.",
+  "email": "chrisentiaconsultancy@gmail.com",
+
+  "phones": [
+    { "label": "+94 76 702 661 13", "tel": "+947670266113" },
+    { "label": "+94 76 821 5954", "tel": "+94768215954" },
+    { "label": "+94 70 296 0367", "tel": "+94702960367" }
+  ],
+
+  "address": {
+    "street": "30/41, Jubilee Road",
+    "locality": "Lakshapathiya, Moratuwa",
+    "country": "Sri Lanka",
+    "countryCode": "LK"
+  },
+
+  "social": {
+    "facebook": "https://www.facebook.com/share/1NsFa1gkKp/",
+    "linkedin": "https://www.linkedin.com/in/chrisentia-consultancy-488882397"
+  },
+
+  "_comment_stats": "TODO Layer 2: these contradict each other across pages today (10 clients / 5 partners vs 150 results / 15 experts). Carried over as-is so the refactor changes nothing visible. Agree one true set and edit here only.",
+  "stats": {
+    "clients": 10,
+    "partners": 5,
+    "results": 150,
+    "experts": 15
+  }
+}

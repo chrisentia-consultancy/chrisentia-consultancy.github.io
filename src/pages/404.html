@@ -1,0 +1,42 @@
+<!--
+title: Page not found — Chrisentia Consultancy
+description: The page you were looking for does not exist.
+canonicalPath:
+-->
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+
+<head>
+  {{> head}}
+  <meta name="robots" content="noindex" />
+</head>
+
+<body data-page="404.html"
+  class="bg-gradient-to-br from-white via-gray-50 to-gray-100 text-on-surface font-body-lg overflow-x-hidden">
+
+  {{> nav}}
+
+  <main id="main" class="min-h-[70vh] flex items-center justify-center px-4 md:px-16 pt-40 pb-24">
+    <div class="max-w-xl text-center">
+      <div class="text-7xl md:text-8xl font-black text-slate-800/15 mb-4">404</div>
+      <h1 class="font-h1 text-3xl md:text-5xl font-bold mb-6">This page doesn't exist</h1>
+      <p class="text-lg text-on-surface-variant mb-10">
+        The link may be out of date, or the address mistyped. Everything we do is one click away.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="index.html"
+          class="text-center bg-gradient-to-r from-slate-800 to-slate-700 text-white px-8 py-3.5 rounded-full font-bold hover:scale-105 transition-all shadow-lg shadow-slate-800/30">Back
+          to home</a>
+        <a href="services.html"
+          class="text-center bg-white text-on-surface px-8 py-3.5 rounded-full font-bold border border-gray-200 hover:border-primary hover:text-slate-800 transition-all shadow-sm">View
+          services</a>
+      </div>
+    </div>
+  </main>
+
+  {{> footer}}
+
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>

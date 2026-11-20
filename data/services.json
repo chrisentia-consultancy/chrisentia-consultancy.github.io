@@ -1,0 +1,38 @@
+[
+  {
+    "id": "industrial-iot",
+    "icon": "router",
+    "title": "Industrial IoT",
+    "summary": "Industrial IoT solutions for enhancing operational efficiency."
+  },
+  {
+    "id": "digital-twin",
+    "icon": "model_training",
+    "title": "Digital Twin",
+    "summary": "Creating virtual replicas for precise monitoring."
+  },
+  {
+    "id": "control-systems",
+    "icon": "schema",
+    "title": "Control System Integration",
+    "summary": "Custom PLC, HMI development and full automation system design."
+  },
+  {
+    "id": "industrial-drafting",
+    "icon": "architecture",
+    "title": "Industrial Drafting",
+    "summary": "Professional AutoCAD layouts and P&IDs for facility upgrades."
+  },
+  {
+    "id": "mechanical-design",
+    "icon": "3d_rotation",
+    "title": "Mechanical Design & Simulation",
+    "summary": "Professional services using SolidWorks, CATIA, ANSYS and COMSOL simulation."
+  },
+  {
+    "id": "panel-design",
+    "icon": "electrical_services",
+    "title": "Electrical Panel Box Design",
+    "summary": "Design and build of electrical control panels tailored to your needs."
+  }
+]

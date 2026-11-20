@@ -1,0 +1,65 @@
+{
+  "_comment": "TODO Layer 2: 'featured' (home page) and 'caseStudies' (solutions page) are two different lists today — a visitor clicking 'View All Projects' lands on four unrelated items. Both are carried over unchanged so this refactor alters nothing on screen. Layer 2 merges them into one list of real client projects, and the mismatched images get replaced with photos of the actual work.",
+
+  "featured": [
+    {
+      "id": "digital-twins",
+      "title": "Digital Twins",
+      "summary": "Creating virtual replicas for precise monitoring.",
+      "image": "images/structural-design.png",
+      "alt": "Digital twin structural model"
+    },
+    {
+      "id": "factory-design",
+      "title": "Factory Design",
+      "summary": "Optimizing space with 3D layouts.",
+      "image": "images/service-cad.png",
+      "alt": "3D factory layout render"
+    },
+    {
+      "id": "industrial-ai",
+      "title": "Industrial AI",
+      "summary": "Smart insights from machine data.",
+      "image": "images/service-cfd.png",
+      "alt": "Industrial AI data visualisation"
+    },
+    {
+      "id": "panel-design",
+      "title": "Panel Design",
+      "summary": "Crafting efficient electrical boards.",
+      "image": "images/service-fea.png",
+      "alt": "Electrical panel design analysis"
+    }
+  ],
+
+  "caseStudies": [
+    {
+      "id": "pet-bottle-feeder",
+      "title": "PET Bottle Feeding Machine",
+      "summary": "Ensure smooth, continuous bottle supply to the filling line while reducing manual handling and increasing overall throughput.",
+      "image": "images/hero-automation.png",
+      "alt": "PET bottle feeding machine"
+    },
+    {
+      "id": "coconut-counter",
+      "title": "AI Powered Coconut Counter",
+      "summary": "Automatically detect and count coconuts in real time, improving accuracy and efficiency in agricultural processing operations.",
+      "image": "images/service-cfd.png",
+      "alt": "AI vision counting system"
+    },
+    {
+      "id": "smart-shelf",
+      "title": "Smart Shelf for Supermarkets",
+      "summary": "Custom SCADA setups enhancing operational efficiency and inventory management on the retail floor.",
+      "image": "images/structural-design.png",
+      "alt": "Smart shelf system"
+    },
+    {
+      "id": "harumi-3d",
+      "title": "3D Modelling of Harumi (Pvt.) Ltd.",
+      "summary": "Precision-crafted panels and 3D architectural/mechanical layouts for seamless facility automation.",
+      "image": "images/service-cad.png",
+      "alt": "3D modelling of facility layout"
+    }
+  ]
+}
