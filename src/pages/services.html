@@ -1,6 +1,6 @@
 <!--
 title: Services — Chrisentia Consultancy
-description: Machine vision, robotics, digital twin, industrial IoT, applied AI, SCADA and PLC control systems, and mechanical design for manufacturing in Sri Lanka.
+description: Machine vision, robotics, digital twin, industrial IoT, applied AI, SCADA and PLC control systems, and mechanical design for industry in Sri Lanka.
 canonicalPath: services.html
 -->
 <!DOCTYPE html>
@@ -10,83 +10,43 @@ canonicalPath: services.html
   {{> head}}
 </head>
 
-<body data-page="services.html"
-  class="bg-gradient-to-br from-white via-gray-50 to-gray-100 text-on-surface font-body-lg overflow-x-hidden">
+<body data-page="services.html" class="site">
 
-  <a href="#main"
-    class="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-4 focus:left-4 focus:bg-white focus:text-slate-800 focus:px-4 focus:py-2 focus:rounded-full focus:font-bold focus:shadow-lg">Skip
-    to content</a>
+  <a href="#main" class="skip-link">Skip to content</a>
 
   {{> nav}}
 
   <main id="main">
 
-    <!-- Hero -->
-    <section class="pt-40 pb-16 px-4 md:px-16 relative overflow-hidden reveal">
-      <div class="max-w-4xl mx-auto text-center space-y-6">
-        <span class="text-slate-800 font-bold tracking-widest uppercase text-sm">Services</span>
-        <h1 class="font-h1 text-4xl sm:text-5xl md:text-7xl font-bold text-on-surface">
-          Intelligence, applied to production
-        </h1>
-        <p class="text-xl text-on-surface-variant max-w-2xl mx-auto">
-          Seven capabilities, combined as each operation requires, from a single vision cell to a connected plant.
-        </p>
-      </div>
-    </section>
+    <!-- Page title and services -->
+    <section id="services" class="section section--tint section--page reveal">
+      <div class="wrap">
+        <div class="section-head section-head--page">
+          <p class="section-kicker">Services</p>
+          <h1 class="page-title">Intelligence, applied to production</h1>
+          <p class="section-sub">
+            Seven capabilities, combined as each operation requires, from a single vision cell to a connected plant.
+          </p>
+        </div>
 
-    <!-- Capabilities -->
-    <section class="pb-24 px-4 md:px-16 reveal">
-      <div class="max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="services-grid">
           {{servicesGrid}}
         </div>
       </div>
     </section>
 
-    <!-- Approach -->
-    <section class="py-24 px-4 md:px-16 bg-gradient-to-b from-slate-800 via-slate-750 to-slate-900 text-white reveal">
-      <div class="max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 class="font-h1 text-4xl md:text-5xl font-bold mb-6">Built for the floor, not the lab</h2>
-            <p class="text-lg text-white/80 mb-6 leading-relaxed">
-              Systems are specified around the conditions they will actually run in: line speed, lighting, heat,
-              vibration, washdown and the people operating them. A model that performs on clean data and fails on a
-              moving conveyor is not a solution.
-            </p>
-            <p class="text-lg text-white/80 mb-10 leading-relaxed">
-              Work spans the full path from sensing and control through to the analytics layer, so a deployed system
-              produces usable operational data rather than only doing its immediate job.
-            </p>
-
-          </div>
-
-          <div
-            class="relative w-full aspect-square md:aspect-video lg:aspect-square rounded-[3rem] overflow-hidden shadow-2xl">
-            <video autoplay muted loop playsinline poster="images/hero-services.png" class="w-full h-full object-cover">
-              <source src="videos/hero-services.mp4" type="video/mp4" />
-              <img src="images/hero-services.png" alt="Engineering work in progress"
-                class="w-full h-full object-cover" />
-            </video>
-            <div class="absolute inset-0 bg-gradient-to-tr from-black/80 to-transparent"></div>
-            <div class="absolute bottom-8 left-8 right-8">
-              <div class="bg-black/40 backdrop-blur-md p-6 rounded-2xl border border-white/20">
-                <h3 class="text-xl font-bold mb-2">Engineering Excellence</h3>
-                <p class="text-white/70 text-sm">Specified, built and commissioned in production environments.</p>
-              </div>
-            </div>
-          </div>
+    <!-- How we work -->
+    <section id="process" class="section section--dark process-band reveal">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">{{processKicker}}</p>
+          <h2 class="section-title">{{processHeadline}}</h2>
         </div>
+        <ol class="process-steps">
+          {{processSteps}}
+        </ol>
       </div>
     </section>
-
-    {{> stats}}
-
-    {{> why}}
-
-    {{> sustainability}}
-
-    {{> clients}}
 
     {{> contact}}
 

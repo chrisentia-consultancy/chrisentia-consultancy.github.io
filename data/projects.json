@@ -1,14 +1,16 @@
 {
   "_comment_media": "Each project reads its visuals from images/projects/<slug>/. Drop files in, number them to set the order (01-, 02-, ...). The first file is the hero. Video (.mp4 .webm .mov) autoplays muted on loop; images rotate as a carousel. An empty folder renders a typographic card instead of a broken image, so a project can go live before its visuals exist.",
   "_comment_clients": "Client names deliberately never appear here. Named clients live in data/clients.json and are shown only as the logo strip — the two are never connected.",
-
   "projects": [
     {
       "id": "coconut-counting",
       "slug": "coconut-counting",
-      "title": "Real-Time Coconut Counting and Conveyor Control",
+      "title": "Real-Time Vision-Based Coconut Counting",
       "cardLine": "Vision-based counting and automated conveyor regulation on a production line.",
-      "tags": ["Machine Vision", "Industrial IoT"],
+      "tags": [
+        "Machine Vision",
+        "Industrial IoT"
+      ],
       "body": [
         "A vision-based counting system installed over a production conveyor. Coconuts are detected and tracked in real time under controlled lighting, with the running count displayed at the line.",
         "Operators set a target quantity and conveyor speed is regulated automatically to meet it. A connected web interface holds full count history and trend analysis, providing per-shift and per-batch visibility."
@@ -19,7 +21,10 @@
       "slug": "smart-shelf",
       "title": "Smart Shelf Automation",
       "cardLine": "Weight-sensing retail shelving with automated product advertising and consumption analytics.",
-      "tags": ["Applied AI", "Industrial IoT"],
+      "tags": [
+        "Applied AI",
+        "Industrial IoT"
+      ],
       "body": [
         "Weight-based sensing beneath each shelf row measures remaining units continuously. Removal of a unit triggers product-specific advertising on an adjacent display.",
         "The system supports multiple products within a single row and scales across a retail floor. An analytics backend provides restock recommendations, consumption forecasting, and analysis of demand peaks and trends."
@@ -30,7 +35,9 @@
       "slug": "liquid-level",
       "title": "Automated Liquid Level Monitoring",
       "cardLine": "Continuous tank level monitoring engineered for beverage production conditions.",
-      "tags": ["Industrial IoT"],
+      "tags": [
+        "Industrial IoT"
+      ],
       "body": [
         "Sensor-based monitoring of liquid levels across a beverage manufacturing facility, providing continuous visibility in place of manual inspection.",
         "Units are waterproofed and constructed to hold calibration under sustained high temperature and heavy machine vibration."
@@ -40,13 +47,28 @@
       "id": "facility-layout",
       "slug": "facility-layout",
       "title": "Facility Layout Design and 3D Modelling",
-      "cardLine": "Engineering-level 3D model and full 2D layout documentation for a manufacturing facility.",
-      "tags": ["Mechanical Design & Simulation"],
+      "cardLine": "Engineering-level 3D model and full 2D layouts for a manufacturing facility.",
+      "tags": [
+        "Mechanical Design & Simulation"
+      ],
       "body": [
-        "Engineering-level 3D modelling and 2D layout documentation for a manufacturing facility, developed from an initial SketchUp concept.",
-        "Scope covered internal partitioning across office and production areas including doors, windows and access points, together with a front yard remodel and a front wall design aligned to corporate identity.",
-        "Deliverables comprised complete 2D floor layouts and full building configuration drawings supporting space management, operational flow and future system integration."
+        "Engineering-level 3D modelling and 2D floor layouts for a manufacturing facility, supporting space management, operational flow and future system integration.",
+        "The work included internal partitioning across office and production areas, with doors, windows and access points, along with a front yard remodel and a front wall design aligned to the company's corporate identity."
+      ]
+    },
+    {
+      "id": "electronic-enclosure",
+      "slug": "electronic-enclosure",
+      "title": "Vehicle-Mounted Electronic Enclosure Design",
+      "cardLine": "IP65 electronic enclosure engineered for vehicle-interior heat and sunlight.",
+      "tags": [
+        "Mechanical Design & Simulation"
+      ],
+      "body": [
+        "Custom electronic enclosure for a vehicle-mounted system, with 3D CAD design and mounting for the PCBs, sensors, batteries and accessories it houses.",
+        "Rated IP65 and made from a UV-resistant engineering thermoplastic, with thermal analysis confirming performance under intermittent exposure up to 70°C."
       ]
     }
-  ]
+  ],
+  "_comment_home": "The first four projects in this list appear on the home page. All of them appear on the Projects page. Reorder the list to choose which four."
 }

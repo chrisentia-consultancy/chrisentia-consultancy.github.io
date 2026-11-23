@@ -1,26 +1,16 @@
-<section id="clients" class="py-24 px-4 md:px-16 bg-white border-y border-gray-100 reveal">
-  <div class="max-w-7xl mx-auto">
-
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-      <div class="max-w-2xl">
-        <p class="text-xs tracking-widest uppercase font-black text-slate-500 mb-3">Clients &amp; Partners</p>
-        <h2 class="font-h1 text-3xl md:text-4xl font-bold">Teams we build for</h2>
-      </div>
-
-      <div class="client-rail__controls" aria-hidden="true">
-        <button type="button" class="rail-btn" data-rail-prev aria-label="Previous">
-          <span class="material-symbols-outlined">arrow_back</span>
-        </button>
-        <button type="button" class="rail-btn" data-rail-next aria-label="Next">
-          <span class="material-symbols-outlined">arrow_forward</span>
-        </button>
-      </div>
+<section id="clients" class="section section--plain clients-section reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-kicker">Clients &amp; Partners</p>
+      <h2 class="section-title">Teams we build for</h2>
     </div>
+  </div>
 
-    <!-- Horizontal rail: scroll-snaps on touch, arrows on desktop. -->
-    <div class="client-rail" data-rail tabindex="0" role="region" aria-label="Clients and partners, scrollable">
-      {{clientCards}}
+  <!-- Scrolls on its own, pauses under the mouse or keyboard focus.
+       With reduced motion turned on it becomes a row you scroll yourself. -->
+  <div class="client-scroller" role="region" aria-label="Clients and partners" tabindex="0">
+    <div class="client-scroller__track" style="--scroll-time: {{clientScrollSeconds}}s">
+        {{clientCards}}
     </div>
-
   </div>
 </section>

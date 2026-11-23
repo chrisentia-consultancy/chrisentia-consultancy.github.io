@@ -1,5 +1,5 @@
-<footer id="contact" class="bg-gradient-to-b from-slate-800 via-slate-750 to-slate-900 text-white pt-20 pb-10">
-  <div class="max-w-7xl mx-auto px-4 md:px-16">
+<footer id="contact" class="site-footer">
+  <div class="wrap">
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-14 items-start">
 
@@ -7,7 +7,7 @@
         <a class="flex items-center gap-3 mb-6" href="index.html">
           <img src="{{site.logo}}" alt="{{site.name}} logo" width="48" height="48"
             class="h-12 w-12 rounded-full border border-white/20" />
-          <span class="font-h3 text-2xl text-white">{{site.name}}</span>
+          <span class="footer-brand">{{site.name}}</span>
         </a>
 
         <p class="text-white/70 max-w-md mb-8 leading-relaxed">
@@ -44,14 +44,9 @@
 
       <div>
         <h3 class="font-bold text-lg mb-5">Find us</h3>
-        <p class="text-white/70 leading-relaxed mb-6">
+        <p class="text-white/70 leading-relaxed">
           {{site.address.street}}<br />{{site.address.locality}}<br />{{site.address.country}}
         </p>
-        <a href="#enquiry"
-          class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/15 text-white px-6 py-3 rounded-full font-bold text-sm transition-all">
-          Get in touch
-          <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
-        </a>
       </div>
 
     </div>

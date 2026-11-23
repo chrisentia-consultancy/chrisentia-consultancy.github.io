@@ -1,97 +1,73 @@
-<section id="enquiry" class="py-24 px-4 md:px-16 bg-gradient-to-b from-gray-50 to-white reveal">
-  <div class="max-w-5xl mx-auto">
+<section id="enquiry" class="section section--plain reveal">
+  <div class="wrap">
 
-    <div class="text-center max-w-2xl mx-auto mb-14">
-      <h2 class="font-h1 text-4xl md:text-5xl font-bold mb-4">Get in touch</h2>
-      <p class="text-lg text-on-surface-variant">
+    <div class="section-head">
+      <p class="section-kicker">Contact</p>
+      <h2 class="section-title">Get in touch</h2>
+      <p class="section-sub">
         Describe the problem you are looking to solve and we will come back with how we would approach it.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-10">
+    <div class="contact-grid">
 
-      <!-- Form -->
-      <div class="lg:col-span-3">
-        <form id="enquiryForm" action="https://formspree.io/f/{{site.formspreeId}}" method="POST"
-          class="glass-panel p-6 md:p-10 rounded-3xl space-y-5">
+      <form id="enquiryForm" action="https://formspree.io/f/{{site.formspreeId}}" method="POST" class="contact-card contact-form">
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div>
-              <label for="name" class="block text-sm font-bold mb-2">Name <span class="text-red-600"
-                  aria-hidden="true">*</span></label>
-              <input type="text" id="name" name="name" required autocomplete="name"
-                class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-white focus:border-slate-800 focus:ring-0" />
-            </div>
-            <div>
-              <label for="company" class="block text-sm font-bold mb-2">Company</label>
-              <input type="text" id="company" name="company" autocomplete="organization"
-                class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-white focus:border-slate-800 focus:ring-0" />
-            </div>
+        <div class="contact-form__row">
+          <div class="field">
+            <label for="name">Name <span class="field__req" aria-hidden="true">*</span></label>
+            <input type="text" id="name" name="name" required autocomplete="name" />
           </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div>
-              <label for="email" class="block text-sm font-bold mb-2">Email <span class="text-red-600"
-                  aria-hidden="true">*</span></label>
-              <input type="email" id="email" name="email" required autocomplete="email"
-                class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-white focus:border-slate-800 focus:ring-0" />
-            </div>
-            <div>
-              <label for="phone" class="block text-sm font-bold mb-2">Phone</label>
-              <input type="tel" id="phone" name="phone" autocomplete="tel"
-                class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-white focus:border-slate-800 focus:ring-0" />
-            </div>
+          <div class="field">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="company" autocomplete="organization" />
           </div>
+        </div>
 
-          <div>
-            <label for="message" class="block text-sm font-bold mb-2">Tell us a bit more <span class="text-red-600"
-                aria-hidden="true">*</span></label>
-            <textarea id="message" name="message" rows="5" required
-              placeholder="What's the process, what's going wrong, and what would good look like?"
-              class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-white focus:border-slate-800 focus:ring-0"></textarea>
+        <div class="contact-form__row">
+          <div class="field">
+            <label for="email">Email <span class="field__req" aria-hidden="true">*</span></label>
+            <input type="email" id="email" name="email" required autocomplete="email" />
           </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" />
+          </div>
+        </div>
 
-          <!-- Honeypot: bots fill this, humans never see it. -->
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"
-            class="hidden" />
+        <div class="field">
+          <label for="message">Project details <span class="field__req" aria-hidden="true">*</span></label>
+          <textarea id="message" name="message" rows="5" required
+            placeholder="Briefly describe the process and what you would like to improve."></textarea>
+        </div>
 
-          <button type="submit"
-            class="w-full sm:w-auto bg-gradient-to-r from-slate-800 to-slate-700 text-white px-10 py-3.5 rounded-full font-bold hover:scale-105 transition-all shadow-lg shadow-slate-800/30 disabled:opacity-60 disabled:hover:scale-100">
-            Send enquiry
-          </button>
+        <!-- Honeypot: bots fill this, people never see it. -->
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden" />
 
-          <p id="formStatus" role="status" aria-live="polite" class="text-sm font-semibold"></p>
-        </form>
-      </div>
+        <button type="submit" class="btn btn--primary">
+          Send enquiry
+        </button>
 
-      <!-- Direct contact -->
-      <div class="lg:col-span-2 space-y-4">
-        <div class="glass-panel p-6 md:p-8 rounded-3xl">
-          <h3 class="font-h3 text-xl font-bold mb-4">Rather talk now?</h3>
+        <p id="formStatus" role="status" aria-live="polite" class="contact-form__status"></p>
+      </form>
 
-          <a href="https://wa.me/{{site.whatsapp}}" target="_blank" rel="noopener noreferrer"
-            class="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white px-6 py-3.5 rounded-full font-bold hover:brightness-95 transition-all mb-5">
-            <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <div class="contact-card contact-direct">
+        <h3 class="card-title">Prefer to talk?</h3>
+
+        <a href="https://wa.me/{{site.whatsapp}}" target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp">
+          <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884a9.82 9.82 0 016.988 2.896 9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.359.101 11.945c0 2.096.549 4.142 1.595 5.945L0 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.582 0 11.941-5.359 11.944-11.945a11.864 11.864 0 00-3.417-8.4" />
             </svg>
-            WhatsApp us
-          </a>
+          WhatsApp us
+        </a>
 
-          <ul class="space-y-3 text-on-surface-variant text-sm">
-            <li class="flex items-center gap-3">
-              <span class="material-symbols-outlined text-slate-500" aria-hidden="true">mail</span>
-              <a href="mailto:{{site.email}}" class="hover:text-slate-800 font-semibold">{{site.email}}</a>
-            </li>
-            {{contactPhoneList}}
-          </ul>
-        </div>
-
-        <div class="glass-panel p-6 md:p-8 rounded-3xl">
-          <h3 class="font-h3 text-xl font-bold mb-3">Visit</h3>
-          <p class="text-on-surface-variant text-sm leading-relaxed">
-            {{site.address.street}}<br />{{site.address.locality}}<br />{{site.address.country}}
-          </p>
-        </div>
+        <ul class="contact-direct__list">
+          <li>
+            <span class="material-symbols-outlined" aria-hidden="true">mail</span>
+            <a href="mailto:{{site.email}}">{{site.email}}</a>
+          </li>
+          {{contactPhoneList}}
+        </ul>
       </div>
 
     </div>

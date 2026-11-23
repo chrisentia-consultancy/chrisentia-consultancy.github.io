@@ -6,7 +6,7 @@
 /* --- Base ---------------------------------------------------------------- */
 
 body {
-  background: linear-gradient(135deg, #fafbfc 0%, #f0f4f8 50%, #e8f0f7 100%);
+  background: #ffffff;
   min-height: 100vh;
 }
 
@@ -14,13 +14,6 @@ section {
   position: relative;
 }
 
-section.bg-white {
-  background: linear-gradient(180deg, #fafbfc 0%, #f5f8fb 100%);
-}
-
-section.bg-surface-dim {
-  background: linear-gradient(180deg, #f0f4f8 0%, #e8f0f7 100%);
-}
 
 /* Visible keyboard focus. Previously missing entirely. */
 :focus-visible {
@@ -41,6 +34,14 @@ section.bg-surface-dim {
 .reveal.active {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* A section reached by a link (About, Get in touch) skips the fade-in, so
+   it is already in place when the page lands on it. */
+.reveal:target {
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
 /* --- Cards --------------------------------------------------------------- */
@@ -380,213 +381,237 @@ section.bg-surface-dim {
 /* Separator dots are drawn between items rather than typed into the markup,
    so the spacing can be tuned without touching content. */
 
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.55rem 1.25rem 0.55rem 0.9rem;
+  border-radius: 9999px;
+  background: rgba(30, 41, 59, 0.06);
+  border: 1px solid rgba(30, 41, 59, 0.14);
+  white-space: nowrap;
+  max-width: 100%;
+}
+
 .badge-list {
   display: inline-flex;
   align-items: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1e293b;
+  white-space: nowrap;
 }
 
+/* A short line between the words, drawn in CSS rather than typed. */
 .badge-list > span + span::before {
-  content: '\2022';
+  content: '';
   display: inline-block;
-  margin: 0 0.7rem;
-  color: rgba(45, 55, 72, 0.35);
-  font-weight: 700;
+  width: 1.1rem;
+  height: 2px;
+  margin: 0 0.8rem;
+  vertical-align: middle;
+  border-radius: 2px;
+  background: rgba(56, 189, 248, 0.85);
 }
 
-/* --- Client rail --------------------------------------------------------- */
-
-.client-rail {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(16rem, 19rem);
-  gap: 1.25rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  padding-bottom: 0.75rem;
-  /* Hide the scrollbar but keep the scrolling. */
-  scrollbar-width: none;
+@media (max-width: 420px) {
+  .badge-list { letter-spacing: 0.08em; font-size: 0.68rem; }
+  .badge-list > span + span::before { width: 0.7rem; margin: 0 0.5rem; }
 }
 
-.client-rail::-webkit-scrollbar {
-  display: none;
+/* --- Clients: scrolling cards ------------------------------------------- */
+
+.client-scroller {
+  overflow: hidden;
+  padding: 0.75rem 0 1.5rem;
+  /* Fade the edges so cards slide in and out rather than popping. */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
 
-.client-rail > * {
-  scroll-snap-align: start;
-}
-
-.client-rail__controls {
+.client-scroller__track {
   display: flex;
-  gap: 0.5rem;
+  gap: 2.75rem;
+  width: max-content;
+  padding: 0 1.5rem;
+  animation: client-scroll var(--scroll-time, 70s) linear infinite;
 }
 
-.rail-btn {
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 9999px;
-  border: 1px solid rgba(45, 55, 72, 0.15);
-  background: #ffffff;
-  color: #2d3748;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+.client-scroller:hover .client-scroller__track,
+.client-scroller:focus-within .client-scroller__track {
+  animation-play-state: paused;
 }
 
-.rail-btn:hover {
-  background: #2d3748;
-  border-color: transparent;
-  color: #ffffff;
-}
-
-.rail-btn[disabled] {
-  opacity: 0.3;
-  cursor: default;
-}
-
-.rail-btn[disabled]:hover {
-  background: #ffffff;
-  color: #2d3748;
-  border-color: rgba(45, 55, 72, 0.15);
+/* The cards are rendered twice, so moving by exactly half loops seamlessly. */
+@keyframes client-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 /* --- Client card --------------------------------------------------------- */
 
 .client-card {
-  display: flex;
-  flex-direction: column;
+  flex: 0 0 auto;
+  width: 22rem;
+  display: grid;
+  grid-template-rows: 13rem auto;
   border-radius: 1.5rem;
   overflow: hidden;
-  border: 1px solid rgba(45, 55, 72, 0.09);
   background: #ffffff;
-  box-shadow: 0 4px 14px -8px rgba(45, 55, 72, 0.25);
+  /* A visible frame, so the story and the logo read as one card and never
+     as the logo of the card next door. */
+  border: 1.5px solid rgba(30, 41, 59, 0.16);
+  box-shadow: 0 14px 34px -20px rgba(15, 23, 42, 0.45);
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+
+@media (min-width: 768px) {
+  .client-card {
+    width: 38rem;
+    grid-template-rows: none;
+    grid-template-columns: 57% 1fr;
+    height: 18rem;
+  }
 }
 
 .client-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 22px 40px -18px rgba(45, 55, 72, 0.35);
+  box-shadow: 0 26px 48px -22px rgba(15, 23, 42, 0.45);
 }
 
-.client-card__top {
+/* Left: backdrop image (optional) under a dark overlay, text on top. */
+.client-card__story {
   position: relative;
-  flex: 1;
-  min-height: 11rem;
-  justify-content: space-between;
-  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  background: linear-gradient(150deg, #f5f8fb, #e8f0f7);
-}
-
-/* A card with a backdrop image goes dark so the text stays readable. */
-.client-card__top.has-backdrop {
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.6rem 1.75rem;
+  color: #ffffff;
+  background-color: #1e293b;
+  background-image: linear-gradient(150deg, #334155, #0f172a);
   background-size: cover;
   background-position: center;
-  color: #ffffff;
 }
 
-.client-card__top.has-backdrop::before {
+.client-card__story::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(160deg, rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.6));
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.55) 0%, rgba(15, 23, 42, 0.82) 100%);
 }
 
-.client-card__top.has-backdrop > * {
+.client-card__story > * {
   position: relative;
   z-index: 1;
 }
 
 .client-card__sector {
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #64748b;
-}
-
-.has-backdrop .client-card__sector {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .client-card__blurb {
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: #475569;
+  font-size: 1.02rem;
+  line-height: 1.5;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
 }
 
-.has-backdrop .client-card__blurb {
-  color: rgba(255, 255, 255, 0.92);
-}
-
-/* No blurb yet: the panel shrinks rather than leaving a tall blank. */
-.client-card__top:not(:has(.client-card__blurb)) {
-  min-height: 5.5rem;
-}
-
-.client-card__foot {
+/* Right: logo, name, relationship. */
+.client-card__brand {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.9rem;
-  padding: 1.1rem 1.5rem;
-  background: #ffffff;
-  border-top: 1px solid rgba(45, 55, 72, 0.08);
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+  background: linear-gradient(165deg, #f8fafc, #eaf3f9);
+  border-left: 3px solid #38bdf8;
 }
 
+@media (max-width: 767px) {
+  .client-card__brand {
+    border-left: 0;
+    border-top: 3px solid #38bdf8;
+  }
+}
+
+/* Every logo sits on the same white rounded tile, so logos with their own
+   white or black backgrounds all look deliberate. */
 .client-card__logo {
-  flex: 0 0 auto;
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 0.85rem;
-  overflow: hidden;
+  width: 10rem;
+  height: 6.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fafbfc;
-  border: 1px solid rgba(45, 55, 72, 0.07);
+  margin-bottom: 0.9rem;
+  padding: 0.75rem;
+  border-radius: 1rem;
+  background: #ffffff;
+  border: 1px solid rgba(30, 41, 59, 0.08);
+  box-shadow: 0 6px 16px -10px rgba(15, 23, 42, 0.3);
+  overflow: hidden;
 }
 
 .client-card__logo img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  border-radius: 0.4rem;
 }
 
 .client-card__wordmark {
-  font-size: 0.6rem;
+  font-family: 'Hanken Grotesk', sans-serif;
   font-weight: 800;
-  text-align: center;
-  line-height: 1.15;
-  color: #475569;
-  padding: 0.25rem;
-}
-
-.client-card__meta {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
+  font-size: 1.15rem;
+  color: #334155;
 }
 
 .client-card__name {
+  font-family: 'Hanken Grotesk', sans-serif;
   font-weight: 800;
-  color: #1e293b;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
+  color: #334155;
   line-height: 1.25;
 }
 
 .client-card__role {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: #94a3b8;
 }
 
+/* Reduced motion: no auto-scroll. A row you swipe or scroll yourself, no copies. */
 @media (prefers-reduced-motion: reduce) {
-  .client-rail { scroll-behavior: auto; }
-  .client-card:hover { transform: none; }
+  .client-scroller {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .client-scroller__track {
+    animation: none;
+  }
+
+  .client-card {
+    scroll-snap-align: start;
+  }
+
+  .client-card[aria-hidden="true"] {
+    display: none;
+  }
+
+  .client-card:hover {
+    transform: none;
+  }
 }
 
 /* --- Footer -------------------------------------------------------------- */
@@ -651,59 +676,62 @@ section.bg-surface-dim {
   opacity: 0.7;
 }
 
-/* --- Stats band ---------------------------------------------------------- */
+/* --- Stats: track record ----------------------------------------------- */
 
-.stats-band {
+.stats-section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Faint dot grid with a soft blue glow, fading out toward the edges. */
+.stats-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(45, 55, 72, 0.14) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 75% at 50% 50%, #000 30%, transparent 80%);
+  mask-image: radial-gradient(ellipse 70% 75% at 50% 50%, #000 30%, transparent 80%);
+  pointer-events: none;
+}
+
+.stats-section::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 60rem;
+  height: 30rem;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.14), transparent 65%);
+  pointer-events: none;
+}
+
+.stats-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.stats-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2.5rem;
-  text-align: center;
+  gap: 3rem;
 }
 
 @media (min-width: 768px) {
-  .stats-band {
+  .stats-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-  }
-
-  /* Hairline dividers between columns, drawn rather than added as markup. */
-  .stats-band .stat + .stat {
-    border-left: 1px solid rgba(45, 55, 72, 0.1);
+    gap: 2rem;
   }
 }
 
 .stat {
-  padding: 0 1.5rem;
-}
-
-.stat__value {
-  font-family: 'Hanken Grotesk', sans-serif;
-  font-size: clamp(3rem, 7vw, 4.5rem);
-  font-weight: 900;
-  line-height: 1;
-  color: #2d3748;
-  margin-bottom: 0.75rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.stat__suffix {
-  color: #94a3b8;
-}
-
-.stat__label {
-  font-weight: 700;
-  font-size: 0.95rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #64748b;
-}
-
-/* Each column lifts in as its counter starts, staggered by data-delay. */
-.stat {
+  text-align: center;
+  padding: 0 0.5rem;
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(18px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .stat.is-in {
@@ -711,15 +739,97 @@ section.bg-surface-dim {
   transform: translateY(0);
 }
 
+/* The ring: a faint full circle, with a blue arc that draws itself in. */
+.stat__ring {
+  position: relative;
+  width: 11rem;
+  height: 11rem;
+  margin: 0 auto 1.5rem;
+}
+
+.stat__ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+
+.stat__track {
+  fill: #ffffff;
+  stroke: rgba(45, 55, 72, 0.08);
+  stroke-width: 5;
+}
+
+.stat__arc {
+  fill: none;
+  stroke: #38bdf8;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.45));
+  transition: stroke-dashoffset 1.6s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.stat.is-in .stat__arc {
+  stroke-dashoffset: 0;
+}
+
+.stat__value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 3.25rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #1e293b;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat__suffix {
+  color: #38bdf8;
+  margin-left: 0.05em;
+}
+
+.stat__label {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 0.4rem;
+}
+
+.stat__note {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: #64748b;
+  max-width: 17rem;
+  margin: 0 auto;
+}
+
+/* Hovering a number makes its ring glow a little brighter. */
+.stat:hover .stat__arc {
+  filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.7));
+}
+
 @media (prefers-reduced-motion: reduce) {
   .stat {
     opacity: 1;
     transform: none;
   }
+
+  .stat__arc {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
 }
 
-/* --- Icon tiles ---------------------------------------------------------- */
+/* --- Card visuals: icon tile or image banner ----------------------------- */
 
+/* No image for this card: the line icon in a small tile. */
 .icon-tile {
   width: 3.75rem;
   height: 3.75rem;
@@ -740,204 +850,1083 @@ section.bg-surface-dim {
   height: 1.95rem;
 }
 
-.service-item:hover .icon-tile,
 .hover-card:hover .icon-tile {
   transform: translateY(-2px) scale(1.06);
   background: linear-gradient(145deg, #2d3748, #475569);
   color: #ffffff;
 }
 
+/* Image for this card: full width across the top, cropped to fill.
+   The negative margin cancels the card's 2rem padding so it runs edge to edge. */
+.card-banner {
+  margin: -2rem -2rem 1.75rem;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 1.5rem 1.5rem 0 0;
+  background: #eef2f6;
+}
+
+.card-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hover-card:hover .card-banner img {
+  transform: scale(1.05);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .service-item:hover .icon-tile,
-  .hover-card:hover .icon-tile {
+  .hover-card:hover .icon-tile,
+  .hover-card:hover .card-banner img {
     transform: none;
   }
 }
 
-/* --- Clickable project cards --------------------------------------------- */
+/* --- Why Chrisentia: dark band, sideways cards --------------------------- */
 
-.project-card-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
+.why-band__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
 }
 
-.project-card-link__cta,
-.project-entry__cta {
+@media (min-width: 1024px) {
+  .why-band__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.why-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  transition: background 0.4s ease, border-color 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (min-width: 640px) {
+  .why-card {
+    grid-template-columns: 40% 1fr;
+  }
+}
+
+.why-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-4px);
+}
+
+.why-card__media {
+  position: relative;
+  min-height: 12rem;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.why-card__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.why-card:hover .why-card__media img {
+  transform: scale(1.05);
+}
+
+/* No image yet: the SVG drawn large, centred in the same box. */
+.why-card__media--icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(125, 211, 252, 0.85);
+  background: linear-gradient(150deg, rgba(56, 189, 248, 0.1), rgba(255, 255, 255, 0.02));
+}
+
+.why-card__svg {
+  width: 4rem;
+  height: 4rem;
+}
+
+.why-card__body {
+  position: relative;
+  padding: 1.75rem 1.75rem 2rem;
+}
+
+.why-card__number {
+  position: absolute;
+  top: 0.75rem;
+  right: 1.25rem;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+}
+
+.why-card__title {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  padding-right: 3.5rem;
+}
+
+/* The tick list, recoloured for the dark background. */
+.section--dark .why-list li {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.section--dark .why-list li::before {
+  border-color: rgba(125, 211, 252, 0.9);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .why-card:hover,
+  .why-card:hover .why-card__media img {
+    transform: none;
+  }
+}
+
+/* --- Why: the full-width fifth card and SDG chips ----------------------- */
+
+/* Spans the whole row, with a narrower picture so it reads as a footer to
+   the four cards above rather than a fifth card squeezed in. */
+@media (min-width: 1024px) {
+  .why-card--wide {
+    grid-column: 1 / -1;
+    grid-template-columns: 22% 1fr;
+  }
+
+  .why-card--wide .why-card__content {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2.5rem;
+    align-items: center;
+  }
+}
+
+.sdg-block {
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .sdg-block {
+    margin-top: 0;
+  }
+}
+
+.sdg-block__label {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(125, 211, 252, 0.9);
+  margin-bottom: 0.7rem;
+}
+
+.sdg-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(8.5rem, 1fr));
+  gap: 0.6rem;
+}
+
+/* Each chip carries its goal's official UN colour as a left stripe. */
+.sdg-chip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 0.9rem 0.8rem 1.1rem;
+  border-radius: 0.8rem;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sdg-chip::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--sdg, #7dd3fc);
+}
+
+.sdg-chip span {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffffff;
+  min-width: 1.6rem;
+}
+
+.sdg-chip small {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+/* --- Project links (home) and arrival (Projects page) -------------------- */
+
+/* The whole home-page project card is one link. */
+.project-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 1.75rem;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-link:hover {
+  transform: translateY(-6px);
+}
+
+.project-link:hover h3 {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+
+.project-link .project-media {
+  transition: box-shadow 0.4s ease;
+}
+
+.project-link:hover .project-media {
+  box-shadow: 0 26px 48px -20px rgba(15, 23, 42, 0.45);
+}
+
+.project-link__cta {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
   margin-top: 1rem;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #2d3748;
   transition: gap 0.3s ease;
 }
 
-.project-card-link:hover .project-card-link__cta,
-.project-entry__cta:hover {
+.project-link__cta .material-symbols-outlined {
+  font-size: 1.15rem;
+}
+
+.project-link:hover .project-link__cta {
   gap: 0.75rem;
 }
 
-.project-entry__media {
-  display: block;
+/* Leave room for the fixed header when jumping to a project. */
+.project-entry {
+  scroll-margin-top: 7.5rem;
 }
 
-.project-entry__title {
-  color: inherit;
-  text-decoration: none;
+/* The project you arrived at skips the scroll fade-in, so it is already in
+   its final position when the page lines it up under the header. */
+.project-entry:target {
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
-.project-entry__title:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+/* Brief highlight on the project you arrived at. */
+.project-entry.is-arrived .project-media {
+  animation: project-arrive 2.4s ease-out;
 }
 
-.project-entry__cta {
-  margin-top: 1.5rem;
-  text-decoration: none;
-}
-
-/* Sibling cards at the foot of a project page. */
-.sibling-card {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-
-.sibling-card .project-media {
-  aspect-ratio: 16 / 10;
-  border-radius: 1.1rem;
-}
-
-.sibling-card:hover h3 {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
-/* Body copy on a project page. */
-.project-prose p {
-  font-size: 1.125rem;
-  line-height: 1.75;
-  color: #475569;
-}
-
-.project-prose p + p {
-  margin-top: 1.25rem;
-}
-
-/* --- Sustainability panel ------------------------------------------------ */
-
-.sustainability-panel {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2.5rem;
-  border-radius: 2rem;
-  padding: 2.5rem;
-  background:
-    radial-gradient(120% 120% at 100% 0%, rgba(56, 189, 248, 0.18), transparent 55%),
-    linear-gradient(150deg, #1e293b, #0f172a);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-@media (min-width: 1024px) {
-  .sustainability-panel {
-    grid-template-columns: 1.4fr 1fr;
-    gap: 4rem;
-    padding: 4rem;
-    border-radius: 3rem;
-    align-items: center;
-  }
-}
-
-.sustainability-list {
-  list-style: none;
-  margin: 0 0 2.25rem;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-}
-
-.sustainability-list li {
-  position: relative;
-  padding-left: 1.9rem;
-  color: rgba(255, 255, 255, 0.78);
-  line-height: 1.55;
-}
-
-.sustainability-list li::before {
-  content: '';
-  position: absolute;
-  left: 0.3rem;
-  top: 0.35rem;
-  width: 0.45rem;
-  height: 0.8rem;
-  border: solid rgba(125, 211, 252, 0.9);
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-.sustainability-panel__cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #ffffff;
-  color: #0f172a;
-  padding: 0.9rem 1.75rem;
-  border-radius: 9999px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: gap 0.3s ease, transform 0.3s ease;
-}
-
-.sustainability-panel__cta:hover {
-  gap: 0.9rem;
-  transform: translateY(-2px);
-}
-
-.sustainability-panel__sdg {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.85rem;
-}
-
-.sdg-chip {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  padding: 1.25rem;
-  border-radius: 1.1rem;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: background 0.35s ease, transform 0.35s ease;
-}
-
-.sdg-chip:hover {
-  background: rgba(255, 255, 255, 0.12);
-  transform: translateY(-3px);
-}
-
-.sdg-chip span {
-  font-family: 'Hanken Grotesk', sans-serif;
-  font-size: 2rem;
-  font-weight: 900;
-  line-height: 1;
-  color: #ffffff;
-}
-
-.sdg-chip small {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
-  line-height: 1.3;
+@keyframes project-arrive {
+  0%   { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.0); }
+  15%  { box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.55); }
+  100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sustainability-panel__cta:hover,
-  .sdg-chip:hover {
+  .project-link:hover {
     transform: none;
   }
+
+  .project-entry.is-arrived .project-media {
+    animation: none;
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.5);
+  }
+}
+
+/* "Physical AI" in the accent blue used by the stats rings and Why band. */
+.hero__accent {
+  background: linear-gradient(100deg, #0284c7, #38bdf8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* --- Hero badge icon or image -------------------------------------------- */
+
+.hero-badge__icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  color: #1e293b;
+  flex: 0 0 auto;
+}
+
+/* Your own image instead: src/icons/hero-badge.png (or .jpg .webp). */
+.hero-badge__img {
+  height: 1.75rem;
+  width: auto;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+/* --- Buttons ------------------------------------------------------------- */
+
+/* Two buttons of equal weight: solid for the main action, a firm outline
+   for the second. Both clearly clickable. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.95rem 1.9rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+  text-decoration: none;
+  border: 2px solid #1e293b;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease,
+              box-shadow 0.3s ease, gap 0.3s ease;
+}
+
+.btn__icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: 0 0 auto;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  gap: 0.8rem;
+}
+
+.btn--primary {
+  background: #1e293b;
+  color: #ffffff;
+  box-shadow: 0 10px 24px -10px rgba(30, 41, 59, 0.6);
+}
+
+.btn--primary:hover {
+  background: #0f172a;
+  box-shadow: 0 16px 30px -12px rgba(30, 41, 59, 0.7);
+}
+
+.btn--secondary {
+  background: #ffffff;
+  color: #1e293b;
+}
+
+.btn--secondary:hover {
+  background: #1e293b;
+  color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover { transform: none; }
+}
+
+
+/* --- How we work (Services page) ----------------------------------------- */
+
+/* Phone: steps stacked, joined by a vertical line down the left. */
+.process-steps {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+/* Each step draws the line down to the next number, so the line always ends
+   exactly at the last step whatever the text lengths. */
+.process-step {
+  position: relative;
+  padding-left: 4.75rem;
+}
+
+.process-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: calc(1.6rem - 1px);
+  top: 3.2rem;
+  height: calc(100% - 3.2rem + 2.5rem);
+  width: 2px;
+  background: rgba(56, 189, 248, 0.45);
+}
+
+.process-step__marker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #ffffff;
+  background: #172033;
+  border: 2px solid #38bdf8;
+  box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.08), 0 0 18px rgba(56, 189, 248, 0.25);
+}
+
+.process-step__title {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 0.55rem 0 0.6rem;
+}
+
+.process-step__text {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Desktop: four steps side by side, joined by a horizontal line that runs
+   from the first number to the last. */
+@media (min-width: 1024px) {
+  .process-steps {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    left: 1.6rem;
+    right: calc((100% - 7.5rem) / 4 - 1.6rem);
+    top: 1.6rem;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(56, 189, 248, 0.75), rgba(56, 189, 248, 0.2));
+  }
+
+  .process-step:not(:last-child)::after {
+    display: none;
+  }
+
+  .process-step {
+    padding-left: 0;
+    padding-top: 4.75rem;
+  }
+
+  .process-step__marker {
+    top: 0;
+  }
+
+  .process-step__title {
+    margin-top: 0;
+  }
+
+  .process-step__text {
+    max-width: 16rem;
+  }
+}
+
+/* The steps arrive one after another as the section scrolls in. */
+.process-step {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.process-band.active .process-step {
+  opacity: 1;
+  transform: none;
+}
+
+.process-band.active .process-step:nth-child(2) { transition-delay: 0.15s; }
+.process-band.active .process-step:nth-child(3) { transition-delay: 0.3s; }
+.process-band.active .process-step:nth-child(4) { transition-delay: 0.45s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .process-step {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Layout system
+   One container, one section rhythm, one way to open a section. Every page
+   and every section uses these, so headings, left edges and spacing line up
+   from the top of the site to the bottom.
+   ========================================================================== */
+
+.site {
+  color: #2d3748;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* One content width and one left edge for everything. (Named .wrap so it
+   cannot collide with Tailwind's own .container class.) */
+.wrap {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .wrap {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* One vertical rhythm between sections. */
+.section {
+  position: relative;
+  padding-block: 4.5rem;
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding-block: 5.5rem;
+  }
+}
+
+/* The first section of an inner page clears the fixed menu bar. */
+.section--page {
+  padding-top: 8rem;
+}
+
+@media (min-width: 1024px) {
+  .section--page {
+    padding-top: 9rem;
+  }
+}
+
+/* Light sections alternate plain and tint; dark sections anchor the page. */
+.section--plain { background: #ffffff; }
+.section--tint  { background: #f8fafc; }
+
+.section--dark {
+  color: #ffffff;
+  background:
+    radial-gradient(90% 70% at 0% 0%, rgba(56, 189, 248, 0.12), transparent 60%),
+    linear-gradient(160deg, #1e293b, #0f172a);
+}
+
+/* --- Section heading: label, title, optional line ------------------------ */
+
+.section-head {
+  max-width: 48rem;
+  margin-bottom: 2.75rem;
+}
+
+.section-kicker {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0284c7;
+  margin-bottom: 0.9rem;
+}
+
+.section-title {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: #1e293b;
+}
+
+.section-sub {
+  margin-top: 1.1rem;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #64748b;
+}
+
+/* Inner pages open with a larger title, same alignment. */
+.page-title {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: clamp(2.5rem, 5.4vw, 4.25rem);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  color: #1e293b;
+}
+
+.section--dark .section-kicker { color: #7dd3fc; }
+.section--dark .section-title  { color: #ffffff; }
+.section--dark .section-sub    { color: rgba(255, 255, 255, 0.7); }
+
+/* --- Shared card text ---------------------------------------------------- */
+
+.card-title {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #1e293b;
+  margin-bottom: 0.65rem;
+}
+
+.section--dark .card-title { color: #ffffff; }
+
+.card-text {
+  color: #64748b;
+  line-height: 1.65;
+}
+
+.why-card__title,
+.process-step__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.stat__label {
+  font-weight: 700;
+}
+
+/* --- Services grid: last row centred ------------------------------------- */
+
+.services-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.services-grid > * {
+  flex: 0 0 100%;
+}
+
+@media (min-width: 768px) {
+  .services-grid > * { flex-basis: calc((100% - 1.5rem) / 2); }
+}
+
+@media (min-width: 1024px) {
+  .services-grid > * { flex-basis: calc((100% - 3rem) / 3); }
+}
+
+.service-card {
+  padding: 2rem;
+  border-radius: 1.5rem;
+}
+
+/* --- Hero ---------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-block: 7.5rem 3.5rem;
+  background: #f8fafc;
+}
+
+/* Faint dot grid and blue glow, the same treatment as the stats section. */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(45, 55, 72, 0.11) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(ellipse 60% 70% at 25% 45%, #000 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 60% 70% at 25% 45%, #000 20%, transparent 75%);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 20%;
+  top: 45%;
+  width: 46rem;
+  height: 32rem;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.12), transparent 65%);
+  pointer-events: none;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero__grid {
+    grid-template-columns: 1.05fr 1fr;
+    gap: 4rem;
+  }
+}
+
+.hero__copy > * + * {
+  margin-top: 2rem;
+}
+
+.hero__title {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: clamp(2.6rem, 6vw, 4.75rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: #1e293b;
+}
+
+.hero__lead {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: #64748b;
+  max-width: 36rem;
+}
+
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .hero__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+.hero__media {
+  aspect-ratio: 4 / 5;
+  border-radius: 2.5rem;
+  overflow: hidden;
+  box-shadow: 0 30px 60px -30px rgba(15, 23, 42, 0.5);
+  background: #0f172a;
+}
+
+@media (min-width: 768px) {
+  .hero__media { aspect-ratio: 1 / 1; }
+}
+
+.hero__media video,
+.hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* --- Projects ------------------------------------------------------------ */
+
+.projects-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.75rem;
+}
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4.5rem;
+}
+
+@media (min-width: 1024px) {
+  .project-list { gap: 6rem; }
+}
+
+/* --- Contact ------------------------------------------------------------- */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .contact-grid {
+    grid-template-columns: 1.6fr 1fr;
+  }
+}
+
+.contact-card {
+  padding: 2rem;
+  border-radius: 1.5rem;
+  background: #ffffff;
+  border: 1px solid rgba(30, 41, 59, 0.1);
+  box-shadow: 0 14px 34px -24px rgba(15, 23, 42, 0.35);
+}
+
+@media (min-width: 768px) {
+  .contact-card { padding: 2.5rem; }
+}
+
+.contact-form > * + * {
+  margin-top: 1.25rem;
+}
+
+.contact-form__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .contact-form__row { grid-template-columns: 1fr 1fr; }
+}
+
+.field label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.field__req {
+  color: #dc2626;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 0.8rem;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  font: inherit;
+  color: #1e293b;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+.field textarea::placeholder {
+  color: #94a3b8;
+}
+
+/* Send enquiry sits centred under the fields. */
+.contact-form .btn {
+  display: flex;
+  width: fit-content;
+  min-width: 12rem;
+  margin: 1.75rem auto 0;
+}
+
+.contact-form__status {
+  text-align: center;
+}
+
+.contact-form__status {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.contact-direct .card-title {
+  margin-bottom: 1.25rem;
+}
+
+.btn--whatsapp {
+  width: 100%;
+  background: #25d366;
+  border-color: #25d366;
+  color: #ffffff;
+}
+
+.btn--whatsapp:hover {
+  background: #1ebe5b;
+  border-color: #1ebe5b;
+  color: #ffffff;
+}
+
+.btn--whatsapp svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: currentColor;
+}
+
+.contact-direct__list {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.contact-direct__list li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.contact-direct__list .material-symbols-outlined {
+  font-size: 1.2rem;
+  color: #94a3b8;
+}
+
+.contact-direct__list a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contact-direct__list a:hover {
+  color: #0284c7;
+}
+
+/* --- Footer and misc ----------------------------------------------------- */
+
+.footer-brand {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 1rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  color: #1e293b;
+  font-weight: 700;
+  box-shadow: 0 8px 20px -8px rgba(15, 23, 42, 0.4);
+}
+
+.skip-link:focus {
+  left: 1rem;
+}
+
+/* A section reached through the menu lands below the fixed menu bar. */
+#top,
+#services,
+#projects,
+#why,
+#enquiry {
+  scroll-margin-top: 0;
+}
+
+/* The menu bar and footer sit on the same edges as the page content. */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem 1.25rem 0;
+}
+
+@media (min-width: 768px) {
+  .site-header {
+    padding-inline: 2.5rem;
+  }
+}
+
+.site-footer {
+  color: #ffffff;
+  padding: 5rem 0 2.5rem;
+  background: linear-gradient(180deg, #1e293b, #0f172a);
+}
+
+/* The bar's outer edge lines up with the content edge at every width. */
+.site-header > nav,
+.site-header > #mobileMenu {
+  max-width: 75rem;
+}
+
+/* --- Blue accent on hover: services and project cards -------------------- */
+
+/* The client cards keep their permanent blue divider because adjacent cards
+   need telling apart. Service and project cards show the same blue only on
+   hover, as a "this responds" cue, so the accent stays one quiet thread. */
+.service-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(30, 41, 59, 0.08);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #0284c7, #38bdf8);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-card:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+.service-card:hover::before {
+  transform: scaleX(1);
+}
+
+.service-card:hover .icon-tile {
+  background: linear-gradient(145deg, #0284c7, #38bdf8);
+  color: #ffffff;
+}
+
+.project-link:hover .project-media {
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.55), 0 26px 48px -20px rgba(15, 23, 42, 0.45);
+}
+
+.project-link:hover .project-link__cta {
+  color: #0284c7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-card::before { transition: none; }
 }

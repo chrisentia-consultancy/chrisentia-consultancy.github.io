@@ -1,90 +1,90 @@
 # Chrisentia Consultancy — website
 
-Static marketing site, built from sources in `src/` and `data/`, deployed to
-GitHub Pages at <https://chrisentia-consultancy.github.io/>.
+Static site built from `src/` and `data/`, deployed to GitHub Pages by GitHub
+Actions on every push to `main`.
 
 ## Quick start
 
 ```bash
-node build.js                            # build into dist/
-python -m http.server 8000 -d dist       # preview at http://localhost:8000
+node build.js                          # build into dist/
+python -m http.server 8000 -d dist     # preview at http://localhost:8000
 ```
 
-Node 18+ is required. There are no dependencies and no `npm install`.
+Node 18+ is required. No dependencies, no `npm install`.
+Read what the build prints: anything other than `built`, `copied` and `wrote`
+lines (a missing icon, an unresolved placeholder, a missing logo) needs a look.
 
-## How it works
-
-Edit the sources, run the build, push. GitHub Actions rebuilds and deploys on
-every push to `main`.
+## Where things live
 
 ```
-src/pages/      one file per page — the unique content of that page
-src/partials/   head, nav, footer — written once, inlined into every page
-data/           the content that would otherwise be duplicated
-assets/         CSS and JavaScript, one copy each
-images/         photographs and renders
-videos/         background video
-build.js        stitches it all together into dist/
-dist/           build output — generated, git-ignored, never edited by hand
+src/pages/       index, services, solutions (Projects), 404
+src/partials/    head, nav, footer, contact, clients, stats, why
+src/icons/       SVG icons, plus any image that replaces one (see below)
+data/            all wording and content that appears on the site
+assets/css/      main.css (all custom styling)
+assets/js/       main.js (behaviour), tailwind-config.js (colours, fonts)
+images/          photos, logos, project media
+videos/          hero video
+build.js         stitches everything into dist/
+dist/            generated output: never edit, git-ignored
 ```
 
-### The one rule
+**A fact appears once.** If the same text needs changing in two places, it
+belongs in `data/`.
 
-**A fact appears once.** The phone number lives in `data/site.json` and nowhere
-else. A service description lives in `data/services.json` and is rendered
-wherever it is needed. If you find yourself changing the same text in two
-files, that text belongs in `data/`.
-
-## Common tasks
+## Common edits
 
 | To change | Edit |
 | --- | --- |
-| Phone, email, address, social links | `data/site.json` |
-| The headline statistics | `data/site.json` → `stats` |
-| A service name or description | `data/services.json` |
-| A project | `data/projects.json` |
-| The navigation or footer | `src/partials/` |
-| Colours or fonts | `assets/js/tailwind-config.js` |
-| Any other styling | `assets/css/main.css` |
-| A page's title or meta description | the comment block at the top of that page in `src/pages/` |
+| Email, phones, address, social links, the three statistics | `data/site.json` |
+| A service card | `data/services.json` |
+| Why Chrisentia cards, headline, SDG chips | `data/why.json` |
+| How we work steps (Services page) | `data/process.json` |
+| Client cards: sector, description, Client/Partner | `data/clients.json` |
+| Projects (first four in the list show on the home page) | `data/projects.json` |
+| Menu | `src/partials/nav.html` |
+| A page's browser title or search description | comment block at the top of the page in `src/pages/` |
 
-Adding a new project is one entry in `data/projects.json` plus one image — no
-HTML to write.
+## Images that drop in by name
 
-Adding a new page: create `src/pages/whatever.html`, give it a front-matter
-comment with `title`, `description` and `canonicalPath`, and the build picks it
-up automatically, including in `sitemap.xml`.
+| What | Put it here | Name it |
+| --- | --- | --- |
+| Service or Why card image (replaces its icon) | `src/icons/` | the card's `icon` value, e.g. `machine-vision.png` |
+| Hero badge image (replaces the robot icon) | `src/icons/` | `hero-badge.png` |
+| Client logo | `images/clients/` | the client's `slug`, e.g. `unilever.png` |
+| Client card background | `images/clients/bg/` | the client's `slug` |
+| Project media (first file is the hero; video plays, images rotate) | `images/projects/<slug>/` | number files `01-`, `02-` to set order |
+| Hero video | `videos/` | `hero-automation.mp4` |
 
-## Placeholders
+Any of `.png`, `.jpg`, `.jpeg`, `.webp` work for images; `.mp4` for video.
+Remove an image and the icon or placeholder comes back.
 
-Available inside any page or partial:
+## Layout rules (keep new sections consistent)
 
-| Placeholder | Renders |
-| --- | --- |
-| `{{> head}}` `{{> nav}}` `{{> footer}}` | the matching file from `src/partials/` |
-| `{{title}}` `{{description}}` `{{canonicalPath}}` | the page's front matter |
-| `{{site.email}}`, `{{site.address.street}}`, … | any path into `data/site.json` |
-| `{{servicesGrid}}` | service cards from `data/services.json` |
-| `{{featuredProjects}}` `{{caseStudies}}` | project cards from `data/projects.json` |
-| `{{structuredData}}` `{{phoneList}}` `{{year}}` | generated by `build.js` |
+Every section is built the same way:
 
-An unresolved placeholder prints a warning during the build rather than failing
-silently — watch the build output.
+```html
+<section class="section section--plain reveal">   <!-- or section--tint / section--dark -->
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-kicker">Label</p>
+      <h2 class="section-title">Heading</h2>
+      <p class="section-sub">Optional one line.</p>
+    </div>
+    ...content...
+  </div>
+</section>
+```
+
+- `.wrap` gives every section the same width and left edge.
+- `.section` gives every section the same spacing.
+- Light sections alternate `section--plain` and `section--tint`.
+- Card titles use `.card-title`. Buttons use `.btn btn--primary` or `.btn btn--secondary`.
 
 ## Deployment
 
-`.github/workflows/deploy.yml` runs `node build.js` and publishes `dist/`.
+`.github/workflows/deploy.yml` runs the build and publishes `dist/`.
+GitHub Pages **Source** must be **GitHub Actions** (Settings → Pages).
 
-GitHub Pages **Source** must be set to **GitHub Actions** (Settings → Pages),
-not "Deploy from a branch". With the branch setting the workflow is ignored and
-the unbuilt sources get served instead.
-
-## Known follow-ups
-
-- `cdn.tailwindcss.com` compiles in the browser and is not meant for production.
-  Replace with a prebuilt stylesheet.
-- Images are unoptimised; several exceed 1 MB. Compress and convert to WebP.
-- The site has no enquiry form. Every visitor has to copy an address or dial a
-  number themselves.
-- `data/site.json` still carries a Gmail address and two sets of statistics that
-  contradict each other across pages. Both are flagged in that file.
+CSS and JS links get a version tag from their contents at build time, so
+visitors always receive the latest styles after a push.

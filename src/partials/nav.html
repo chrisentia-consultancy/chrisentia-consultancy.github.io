@@ -1,4 +1,4 @@
-<header class="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pt-3 px-4 md:px-16">
+<header class="site-header">
   <nav aria-label="Main"
     class="rounded-full bg-white/90 backdrop-blur-xl border-[0.5px] border-gray-200/40 shadow-lg flex items-center justify-between w-full max-w-7xl px-6 py-3">
 
@@ -9,15 +9,16 @@
     </a>
 
     <ul id="desktopLinks" class="flex items-center gap-8">
-      <li><a class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-800" href="index.html"{{active.index}}>Home</a></li>
+      <li><a class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-800" href="index.html#top">About</a></li>
       <li><a class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-800" href="services.html"{{active.services}}>Services</a></li>
-      <li><a class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-800" href="solutions.html"{{active.solutions}}>Solutions</a></li>
+      <li><a class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-800" href="solutions.html"{{active.solutions}}>Projects</a></li>
+      <li><a class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-800" href="index.html#why">Why Chrisentia</a></li>
     </ul>
 
     <div class="flex items-center gap-3">
       <a id="desktopContact" href="#enquiry"
         class="bg-gradient-to-r from-slate-800 to-slate-700 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-slate-800/30 hover:scale-105 transition-all">
-        Contact Us
+        Get in touch
       </a>
       <button id="hamburger" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
         <span></span><span></span><span></span>
@@ -27,10 +28,11 @@
 
   <div id="mobileMenu">
     <ul>
-      <li><a href="index.html"{{active.index}}>Home</a></li>
+      <li><a href="index.html#top">About</a></li>
       <li><a href="services.html"{{active.services}}>Services</a></li>
-      <li><a href="solutions.html"{{active.solutions}}>Solutions</a></li>
+      <li><a href="solutions.html"{{active.solutions}}>Projects</a></li>
+      <li><a href="index.html#why">Why Chrisentia</a></li>
     </ul>
-    <a id="mobileContact" href="#enquiry">Contact Us</a>
+    <a id="mobileContact" href="#enquiry">Get in touch</a>
   </div>
 </header>

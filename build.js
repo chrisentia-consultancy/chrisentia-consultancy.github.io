@@ -101,6 +101,56 @@ function parseFrontMatter(raw) {
   return { meta, body: raw.slice(match[0].length) };
 }
 
+/* --- icons and card visuals --------------------------------------------- */
+
+/** Inlines src/icons/<name>.svg so it inherits text colour. */
+function icon(name, className) {
+  const file = path.join(SRC, 'icons', `${name}.svg`);
+  if (!fs.existsSync(file)) {
+    console.warn(`  ! no icon src/icons/${name}.svg`);
+    return '';
+  }
+  const svg = read(file).trim();
+  return className ? svg.replace('<svg ', `<svg class="${className}" `) : svg;
+}
+
+/**
+ * A raster image in src/icons/ with the same name wins over the SVG:
+ * machine-vision.png (or .jpg .jpeg .webp .avif .gif) is used if present,
+ * otherwise machine-vision.svg. The image is copied into dist/assets/icons/.
+ */
+const ICON_IMAGE_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.webp', '.avif', '.gif'];
+
+function iconImage(name) {
+  const dir = path.join(SRC, 'icons');
+  if (!fs.existsSync(dir)) return null;
+  const match = fs.readdirSync(dir).find((f) => {
+    const ext = path.extname(f);
+    return path.basename(f, ext) === name && ICON_IMAGE_EXTENSIONS.includes(ext.toLowerCase());
+  });
+  if (!match) return null;
+  const outDir = path.join(DIST, 'assets', 'icons');
+  fs.mkdirSync(outDir, { recursive: true });
+  fs.copyFileSync(path.join(dir, match), path.join(outDir, match));
+  return `assets/icons/${match}`;
+}
+
+/**
+ * Top of a service or Why card. An image becomes a full-width banner across
+ * the top of the card; with no image, the SVG sits in a small tile.
+ */
+function cardVisual(name) {
+  const img = iconImage(name);
+  if (img) {
+    return `<div class="card-banner">
+              <img src="${esc(img)}" alt="" loading="lazy" decoding="async" />
+            </div>`;
+  }
+  return `<div class="icon-tile">
+              ${icon(name, 'icon-tile__svg')}
+            </div>`;
+}
+
 /* --- content blocks ------------------------------------------------------ */
 
 function renderPhoneList(site) {
@@ -117,12 +167,10 @@ function renderPhoneList(site) {
 function renderServicesGrid(services) {
   return services
     .map(
-      (service) => `<div class="glass-panel p-8 rounded-3xl hover-card">
-            <div class="h-14 w-14 bg-slate-800/10 rounded-2xl flex items-center justify-center mb-6">
-              <span class="material-symbols-outlined text-3xl text-slate-800" aria-hidden="true">${esc(service.icon)}</span>
-            </div>
-            <h3 class="font-h3 text-xl font-bold mb-3">${esc(service.title)}</h3>
-            <p class="text-on-surface-variant">${esc(service.summary)}</p>${
+      (service) => `<div class="service-card glass-panel hover-card">
+            ${cardVisual(service.icon)}
+            <h3 class="card-title">${esc(service.title)}</h3>
+            <p class="card-text">${esc(service.summary)}</p>${
               service.tools
                 ? `\n            <p class="service-tools">${esc(service.tools)}</p>`
                 : ''
@@ -130,6 +178,71 @@ function renderServicesGrid(services) {
           </div>`
     )
     .join('\n\n          ');
+}
+
+/**
+ * Why cards sit sideways: picture on the left, text on the right, with a
+ * faint number behind. The picture is an image from src/icons/ if one exists,
+ * otherwise the SVG drawn large in a tinted box, so both kinds line up.
+ */
+function whyVisual(name) {
+  const img = iconImage(name);
+  if (img) {
+    return `<div class="why-card__media">
+              <img src="${esc(img)}" alt="" loading="lazy" decoding="async" />
+            </div>`;
+  }
+  return `<div class="why-card__media why-card__media--icon">
+              ${icon(name, 'why-card__svg')}
+            </div>`;
+}
+
+function renderWhyGrid(why) {
+  return why.cards
+    .map(
+      (card, i) => {
+        const sdgs = (card.sdgs || []).length
+          ? `<div class="sdg-block">
+                <p class="sdg-block__label">UN Sustainable Development Goals</p>
+                <ul class="sdg-chips">
+                  ${card.sdgs
+                    .map(
+                      (g) =>
+                        `<li class="sdg-chip"${g.color ? ` style="--sdg:${esc(g.color)}"` : ''}><span>${esc(g.number)}</span><small>${esc(g.label)}</small></li>`
+                    )
+                    .join('\n                  ')}
+                </ul>
+              </div>`
+          : '';
+        return `<article class="why-card${card.wide ? ' why-card--wide' : ''}">
+            ${whyVisual(card.icon)}
+            <div class="why-card__body">
+              <span class="why-card__number" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+              <h3 class="card-title why-card__title">${esc(card.title)}</h3>
+              <div class="why-card__content">
+                <ul class="why-list">
+                  ${card.points.map((pt) => `<li>${esc(pt)}</li>`).join('\n                  ')}
+                </ul>
+                ${sdgs}
+              </div>
+            </div>
+          </article>`;
+      }
+    )
+    .join('\n\n      ');
+}
+
+/** How we work: numbered steps, each a short title and one sentence. */
+function renderProcessSteps(process) {
+  return process.steps
+    .map(
+      (step, i) => `<li class="process-step">
+            <span class="process-step__marker" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+            <h3 class="card-title process-step__title">${esc(step.title)}</h3>
+            <p class="process-step__text">${esc(step.text)}</p>
+          </li>`
+    )
+    .join('\n          ');
 }
 
 /* --- Project media ------------------------------------------------------- */
@@ -214,15 +327,21 @@ function renderProjectMedia(project, index) {
             </div>`;
 }
 
-/** Home page: compact cards for every project. */
+/** Home page: each card links to its write-up on the Projects page. */
 function renderFeaturedProjects(projects) {
+  // Four keep the two-column grid even; the rest are on the Projects page.
   return projects
+    .slice(0, 4)
     .map(
-      (project, i) => `<article class="group">
+      (project, i) => `<a class="group project-link" href="solutions.html#${esc(project.slug)}">
             ${renderProjectMedia(project, i + 1)}
             <h3 class="font-h3 text-2xl font-bold mt-6 mb-2">${esc(project.title)}</h3>
             <p class="text-on-surface-variant">${esc(project.cardLine)}</p>
-          </article>`
+            <span class="project-link__cta">
+              View project
+              <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </span>
+          </a>`
     )
     .join('\n\n          ');
 }
@@ -238,7 +357,7 @@ function renderCaseStudies(projects) {
         .map((para) => `<p class="text-on-surface-variant text-lg leading-relaxed">${esc(para)}</p>`)
         .join('\n              ');
 
-      return `<article class="project-entry reveal">
+      return `<article id="${esc(project.slug)}" class="project-entry reveal">
             <div class="project-entry__media">
               ${renderProjectMedia(project, i + 1)}
             </div>
@@ -256,76 +375,80 @@ function renderCaseStudies(projects) {
 }
 
 /**
- * Client logos.
+ * Client cards, scrolling.
  *
- * The logo file is found by slug, whatever its extension — drop
- * images/clients/unilever.png or .svg or .jpg and it just works. A client
- * with no file yet renders as a text tile instead of a broken image, so the
- * list can go live before every logo has arrived.
- *
- * The track is duplicated so the marquee can loop seamlessly. The copy is
- * aria-hidden so screen readers announce each client once.
+ * Each card: left side has an optional backdrop image (images/clients/bg/<slug>.*)
+ * under a dark overlay, with the sector and a one-line blurb on top; right side
+ * has the logo (images/clients/<slug>.*), the name and Client or Partner.
+ * Any image extension works for both. The row is rendered twice so the scroll
+ * can loop seamlessly; the copy is hidden from screen readers.
  */
-const LOGO_EXTENSIONS = ['.svg', '.png', '.webp', '.jpg', '.jpeg', '.avif'];
+const IMAGE_EXTS = ['.svg', '.png', '.webp', '.jpg', '.jpeg', '.avif'];
 
-function findLogo(slug) {
-  const dir = path.join(ROOT, 'images', 'clients');
-  if (!fs.existsSync(dir)) return null;
-  for (const ext of LOGO_EXTENSIONS) {
-    for (const candidate of [slug + ext, slug + ext.toUpperCase()]) {
-      if (fs.existsSync(path.join(dir, candidate))) {
-        return `images/clients/${candidate}`;
-      }
-    }
-  }
-  return null;
+function findImage(dir, slug) {
+  const full = path.join(ROOT, dir);
+  if (!fs.existsSync(full)) return null;
+  const match = fs.readdirSync(full).find((f) => {
+    const ext = path.extname(f);
+    return path.basename(f, ext) === slug && IMAGE_EXTS.includes(ext.toLowerCase());
+  });
+  return match ? `${dir}/${match}` : null;
 }
 
-function renderClientLogos(clientsData) {
+function renderClientCards(clientsData) {
   const clients = clientsData.clients.filter((c) => c.published);
   if (!clients.length) return '';
 
-  let missing = 0;
+  const missing = [];
 
-  const tile = (client, isClone) => {
-    const logo = findLogo(client.slug);
+  const card = (client, isClone) => {
+    const logo = findImage('images/clients', client.slug);
+    const backdrop = findImage('images/clients/bg', client.slug);
+    if (!logo && !isClone) missing.push(client.slug);
+
     const hidden = isClone ? ' aria-hidden="true"' : '';
-    const role = isClone ? '' : ' role="listitem"';
+    const bg = backdrop ? ` style="background-image:url('${esc(backdrop)}')"` : '';
+    const mark = logo
+      ? `<img src="${esc(logo)}" alt="${esc(client.name)} logo" loading="lazy" decoding="async" />`
+      : `<span class="client-card__wordmark">${esc(client.name)}</span>`;
 
-    if (!logo) {
-      if (!isClone) missing++;
-      return `<div class="logo-marquee__item logo-marquee__item--text"${role}${hidden}>
-            <span>${esc(client.name)}</span>
-          </div>`;
-    }
-
-    return `<div class="logo-marquee__item"${role}${hidden}>
-            <img src="${esc(logo)}" alt="${esc(client.name)}" loading="lazy" decoding="async" />
-          </div>`;
+    return `<article class="client-card"${hidden}>
+          <div class="client-card__story"${bg}>
+            <span class="client-card__sector">${esc(client.sector || '')}</span>
+            <p class="client-card__blurb">${esc(client.blurb || '')}</p>
+          </div>
+          <div class="client-card__brand">
+            <div class="client-card__logo">${mark}</div>
+            <span class="client-card__name">${esc(client.name)}</span>
+            <span class="client-card__role">${esc(client.relationship || 'Client')}</span>
+          </div>
+        </article>`;
   };
 
-  const once = clients.map((c) => tile(c, false)).join('\n          ');
-  const clone = clients.map((c) => tile(c, true)).join('\n          ');
-
-  if (missing) {
-    console.log(
-      `  note   ${missing} client logo(s) not found in images/clients/ — showing name tiles instead`
-    );
+  if (missing.length) {
+    console.log(`  note   no logo in images/clients/ for: ${missing.join(', ')}`);
   }
 
-  return `${once}\n          ${clone}`;
+  const once = clients.map((c) => card(c, false)).join('\n        ');
+  const clone = clients.map((c) => card(c, true)).join('\n        ');
+  return `${once}\n        ${clone}`;
+}
+
+/** Scroll speed scales with the number of cards so it never races. */
+function clientScrollSeconds(clientsData) {
+  return clientsData.clients.filter((c) => c.published).length * 9;
 }
 
 /** Phone list for the contact card (lighter styling than the footer's). */
 function renderContactPhoneList(site) {
   return site.phones
     .map(
-      (phone) => `<li class="flex items-center gap-3">
-              <span class="material-symbols-outlined text-slate-500" aria-hidden="true">phone_in_talk</span>
-              <a href="tel:${esc(phone.tel)}" class="hover:text-slate-800 font-semibold">${esc(phone.label)}</a>
-            </li>`
+      (phone) => `<li>
+            <span class="material-symbols-outlined" aria-hidden="true">phone_in_talk</span>
+            <a href="tel:${esc(phone.tel)}">${esc(phone.label)}</a>
+          </li>`
     )
-    .join('\n            ');
+    .join('\n          ');
 }
 
 function renderStructuredData(site) {
@@ -352,6 +475,28 @@ function renderStructuredData(site) {
     null,
     2
   );
+}
+
+/* --- cache busting ------------------------------------------------------- */
+
+/**
+ * Adds ?v=<hash of the file> to our own CSS and JS links. When a file changes,
+ * its link changes, so browsers (and GitHub Pages' cache) fetch the new copy
+ * instead of showing a stale one. Unchanged files keep the same link and stay
+ * cached.
+ */
+const crypto = require('crypto');
+const VERSIONED_ASSETS = ['assets/css/main.css', 'assets/js/main.js', 'assets/js/tailwind-config.js'];
+
+function versionAssets(html) {
+  let out = html;
+  for (const asset of VERSIONED_ASSETS) {
+    const file = path.join(ROOT, asset);
+    if (!fs.existsSync(file)) continue;
+    const hash = crypto.createHash('md5').update(fs.readFileSync(file)).digest('hex').slice(0, 8);
+    out = out.split(`"${asset}"`).join(`"${asset}?v=${hash}"`);
+  }
+  return out;
 }
 
 /* --- template engine ----------------------------------------------------- */
@@ -390,6 +535,8 @@ function build() {
   const services = readJSON(path.join(ROOT, 'data', 'services.json'));
   const projects = readJSON(path.join(ROOT, 'data', 'projects.json'));
   const clients = readJSON(path.join(ROOT, 'data', 'clients.json'));
+  const why = readJSON(path.join(ROOT, 'data', 'why.json'));
+  const process = readJSON(path.join(ROOT, 'data', 'process.json'));
 
   const partials = {};
   const partialDir = path.join(SRC, 'partials');
@@ -409,8 +556,25 @@ function build() {
     structuredData: renderStructuredData(site),
     phoneList: renderPhoneList(site),
     contactPhoneList: renderContactPhoneList(site),
-    clientLogos: renderClientLogos(clients),
+    clientCards: renderClientCards(clients),
+    clientScrollSeconds: clientScrollSeconds(clients),
     servicesGrid: renderServicesGrid(services),
+    whyGrid: renderWhyGrid(why),
+    processSteps: renderProcessSteps(process),
+    processKicker: esc(process.kicker),
+    processHeadline: esc(process.headline),
+    iconBadge: (() => {
+      const img = iconImage('hero-badge');
+      return img
+        ? `<img class="hero-badge__img" src="${esc(img)}" alt="" />`
+        : icon('robotics', 'hero-badge__icon');
+    })(),
+    projectCount: projects.projects.length,
+    iconArrowRight: icon('arrow-right', 'btn__icon'),
+    iconArrowDown: icon('arrow-down', 'btn__icon'),
+    whyKicker: esc(why.kicker || 'Why Chrisentia'),
+    whyHeadline: esc(why.headline || ''),
+    whyIntro: esc(why.intro),
     featuredProjects: renderFeaturedProjects(projects.projects),
     caseStudies: renderCaseStudies(projects.projects)
   };
@@ -435,7 +599,7 @@ function build() {
       }
     };
 
-    fs.writeFileSync(path.join(DIST, file), render(body, ctx, partials), 'utf8');
+    fs.writeFileSync(path.join(DIST, file), versionAssets(render(body, ctx, partials)), 'utf8');
     built.push(file);
     console.log(`  built  ${file}`);
   }

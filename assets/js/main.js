@@ -85,7 +85,9 @@
     function step(timestamp) {
       if (start === null) start = timestamp;
       var progress = Math.min((timestamp - start) / duration, 1);
-      el.textContent = String(Math.floor(progress * target));
+      // Ease out: fast at first, settling gently onto the final number.
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = String(Math.round(eased * target));
       if (progress < 1) {
         window.requestAnimationFrame(step);
       } else {
@@ -122,7 +124,7 @@
 
           window.setTimeout(function () {
             if (stat) stat.classList.add('is-in');
-            if (!isNaN(target)) animateCounter(el, target, 900 + delay);
+            if (!isNaN(target)) animateCounter(el, target, 1600);
           }, delay);
 
           observer.unobserve(el);
@@ -193,42 +195,6 @@
       } else {
         start();
       }
-    });
-  }
-
-  /* --- Client rail ------------------------------------------------------ */
-
-  /* Arrow buttons scroll by roughly one card. Disabled at each end so the
-     controls reflect where you actually are. */
-
-  function initRails() {
-    document.querySelectorAll('[data-rail]').forEach(function (rail) {
-      var section = rail.closest('section') || document;
-      var prev = section.querySelector('[data-rail-prev]');
-      var next = section.querySelector('[data-rail-next]');
-      if (!prev || !next) return;
-
-      function step() {
-        var card = rail.firstElementChild;
-        return card ? card.getBoundingClientRect().width + 20 : 300;
-      }
-
-      function sync() {
-        var max = rail.scrollWidth - rail.clientWidth - 2;
-        prev.disabled = rail.scrollLeft <= 2;
-        next.disabled = rail.scrollLeft >= max;
-      }
-
-      prev.addEventListener('click', function () {
-        rail.scrollBy({ left: -step(), behavior: 'smooth' });
-      });
-      next.addEventListener('click', function () {
-        rail.scrollBy({ left: step(), behavior: 'smooth' });
-      });
-
-      rail.addEventListener('scroll', sync, { passive: true });
-      window.addEventListener('resize', sync);
-      sync();
     });
   }
 
@@ -303,6 +269,38 @@
     });
   }
 
+  /* --- Arriving at a project from the home page ------------------------- */
+
+  /* A link like solutions.html#smart-shelf lands on that project. The browser
+     does the jump itself; this re-aligns it once images and fonts have loaded
+     (which can shift the page), shows it straight away rather than waiting for
+     the scroll fade-in, and gives it a brief highlight so it's obvious which
+     one was clicked. */
+
+  function initProjectTarget() {
+    var id = window.location.hash.slice(1);
+    if (!id) return;
+    var target = document.getElementById(id);
+    if (!target || !target.classList.contains('project-entry')) return;
+
+    target.classList.add('active');
+
+    function align() {
+      target.scrollIntoView({ block: 'start', behavior: 'auto' });
+    }
+
+    if (document.readyState === 'complete') {
+      align();
+    } else {
+      window.addEventListener('load', align, { once: true });
+    }
+
+    target.classList.add('is-arrived');
+    window.setTimeout(function () {
+      target.classList.remove('is-arrived');
+    }, 2600);
+  }
+
   /* --- Boot ------------------------------------------------------------- */
 
   function init() {
@@ -310,8 +308,8 @@
     initReveal();
     initCounters();
     initCarousels();
-    initRails();
     initEnquiryForm();
+    initProjectTarget();
   }
 
   if (document.readyState === 'loading') {

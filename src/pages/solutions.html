@@ -1,6 +1,6 @@
 <!--
 title: Projects — Chrisentia Consultancy
-description: Delivered automation projects — real-time vision-based counting with conveyor control, weight-sensing smart shelving, liquid level monitoring and facility layout modelling.
+description: Delivered services: real-time vision-based counting, weight-sensing smart shelving, liquid level monitoring, facility layout modelling and electronic enclosure design.
 canonicalPath: solutions.html
 -->
 <!DOCTYPE html>
@@ -10,38 +10,27 @@ canonicalPath: solutions.html
   {{> head}}
 </head>
 
-<body data-page="solutions.html"
-  class="bg-gradient-to-br from-white via-gray-50 to-gray-100 text-on-surface font-body-lg overflow-x-hidden">
+<body data-page="solutions.html" class="site">
 
-  <a href="#main"
-    class="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-4 focus:left-4 focus:bg-white focus:text-slate-800 focus:px-4 focus:py-2 focus:rounded-full focus:font-bold focus:shadow-lg">Skip
-    to content</a>
+  <a href="#main" class="skip-link">Skip to content</a>
 
   {{> nav}}
 
   <main id="main">
 
-    <!-- Hero -->
-    <section class="pt-40 pb-16 px-4 md:px-16 relative overflow-hidden reveal">
-      <div class="max-w-4xl mx-auto text-center space-y-6">
-        <span class="text-slate-800 font-bold tracking-widest uppercase text-sm">Projects</span>
-        <h1 class="font-h1 text-4xl sm:text-5xl md:text-7xl font-bold text-on-surface">
-          Systems running in production
-        </h1>
-        <p class="text-xl text-on-surface-variant max-w-2xl mx-auto">
-          Vision, sensing and modelling work delivered into working facilities across Sri Lanka.
-        </p>
+    <!-- Page title and projects -->
+    <section id="projects" class="section section--tint section--page">
+      <div class="wrap">
+        <div class="section-head section-head--page reveal">
+          <p class="section-kicker">Projects</p>
+          <h1 class="page-title">Delivered services</h1>
+        </div>
+
+        <div class="project-list">
+          {{caseStudies}}
+        </div>
       </div>
     </section>
-
-    <!-- Project entries -->
-    <section id="projects" class="pb-12 px-4 md:px-16">
-      <div class="max-w-7xl mx-auto space-y-24 md:space-y-32">
-        {{caseStudies}}
-      </div>
-    </section>
-
-    {{> clients}}
 
     {{> contact}}
 

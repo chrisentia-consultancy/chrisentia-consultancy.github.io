@@ -1,0 +1,78 @@
+{
+  "_comment": "Each card shows an image from src/icons/<icon>.png/.jpg/.jpeg/.webp if one exists, otherwise src/icons/<icon>.svg. Same rule as the services.",
+  "kicker": "Why Chrisentia",
+  "headline": "From fabrication to AI, one team builds the whole system.",
+  "intro": "Chrisentia delivers complete mechatronic systems powered by artificial intelligence, developed in-house and deployed into working environments across Sri Lanka.",
+  "cards": [
+    {
+      "icon": "why-delivery",
+      "title": "End-to-End Delivery",
+      "points": [
+        "Mechanical design and fabrication",
+        "AI engine development and electronics integration",
+        "Software, IoT and operator interfaces"
+      ]
+    },
+    {
+      "icon": "why-inhouse",
+      "title": "Specialist Engineering",
+      "points": [
+        "Engineers across mechatronics, data science and software",
+        "Every solution designed around its specific application",
+        "Deep customisation to fit existing lines and processes"
+      ]
+    },
+    {
+      "icon": "why-conditions",
+      "title": "Built for Harsh Environments",
+      "points": [
+        "Tolerant to water, pressure, heat and vibration",
+        "Validated under real industrial operating conditions",
+        "Durable hardware with operator-friendly interfaces"
+      ]
+    },
+    {
+      "icon": "why-data",
+      "title": "Data That Drives Decisions",
+      "points": [
+        "Live operational data on one centralised interface",
+        "History, trends and anomaly detection built in",
+        "Insights that feed back into control and maintenance"
+      ]
+    },
+    {
+      "icon": "why-sustainable",
+      "title": "Sustainable by Design",
+      "wide": true,
+      "points": [
+        "Less material waste through precise inspection and counting",
+        "Lower energy and water use through demand-matched operation",
+        "Measurable progress toward the UN Sustainable Development Goals"
+      ],
+      "sdgs": [
+        {
+          "number": 7,
+          "label": "Clean Energy",
+          "color": "#FCC30B"
+        },
+        {
+          "number": 9,
+          "label": "Industry & Innovation",
+          "color": "#FD6925"
+        },
+        {
+          "number": 12,
+          "label": "Responsible Production",
+          "color": "#BF8B2E"
+        },
+        {
+          "number": 13,
+          "label": "Climate Action",
+          "color": "#3F7E44"
+        }
+      ]
+    }
+  ],
+  "_comment_wide": "A card with \"wide\": true spans the full row. \"sdgs\" adds the numbered goal chips to it.",
+  "_comment_sdgs": "Each goal's \"color\" is its official UN SDG colour, shown as a stripe on the chip."
+}

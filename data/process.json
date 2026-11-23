@@ -1,0 +1,23 @@
+{
+  "_comment": "The How we work steps on the Services page. Each step: a short title and one sentence.",
+  "kicker": "How we work",
+  "headline": "From first visit to a running system",
+  "steps": [
+    {
+      "title": "Assess",
+      "text": "A site visit to understand the process, the operating conditions and what success looks like."
+    },
+    {
+      "title": "Design",
+      "text": "Mechanical, electrical and software design, reviewed and validated before anything is built."
+    },
+    {
+      "title": "Build and Integrate",
+      "text": "Fabrication, AI development and integration into the existing line."
+    },
+    {
+      "title": "Deploy and Support",
+      "text": "On-site commissioning, operator handover and ongoing technical support."
+    }
+  ]
+}
