@@ -301,6 +301,61 @@
     }, 2600);
   }
 
+  /* --- Menu highlight while scrolling (home page only) ------------------ */
+
+  /* Each home page section maps to the menu item it belongs to. Clients,
+     Track record and Why all count as "Why Chrisentia". Get in touch maps to
+     nothing, so no item is highlighted there. The other pages keep their
+     fixed "you are on this page" underline instead. */
+
+  var SECTION_TO_NAV = {
+    top: 'about',
+    services: 'services',
+    projects: 'projects',
+    clients: 'why',
+    stats: 'why',
+    why: 'why',
+    enquiry: null
+  };
+
+  function initScrollSpy() {
+    if (document.body.getAttribute('data-page') !== 'index.html') return;
+
+    var sections = Object.keys(SECTION_TO_NAV)
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+    var links = document.querySelectorAll('[data-nav]');
+    if (!sections.length || !links.length) return;
+
+    var current;
+    var ticking = false;
+
+    function update() {
+      ticking = false;
+      // The section that owns the line 35% down the screen is the current one.
+      var line = window.innerHeight * 0.35;
+      var active = sections[0].id;
+      sections.forEach(function (sec) {
+        if (sec.getBoundingClientRect().top <= line) active = sec.id;
+      });
+      var key = SECTION_TO_NAV[active];
+      if (key === current) return;
+      current = key;
+      links.forEach(function (link) {
+        link.classList.toggle('is-current', link.getAttribute('data-nav') === key);
+      });
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(update);
+      }
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
   /* --- Boot ------------------------------------------------------------- */
 
   function init() {
@@ -310,6 +365,7 @@
     initCarousels();
     initEnquiryForm();
     initProjectTarget();
+    initScrollSpy();
   }
 
   if (document.readyState === 'loading') {

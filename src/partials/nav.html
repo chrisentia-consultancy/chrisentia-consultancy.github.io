@@ -9,10 +9,10 @@
     </a>
 
     <ul id="desktopLinks" class="flex items-center gap-8">
-      <li><a class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-800" href="index.html#top">About</a></li>
-      <li><a class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-800" href="services.html"{{active.services}}>Services</a></li>
-      <li><a class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-800" href="solutions.html"{{active.solutions}}>Projects</a></li>
-      <li><a class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-800" href="index.html#why">Why Chrisentia</a></li>
+      <li><a class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-800" href="index.html#top" data-nav="about">About</a></li>
+      <li><a class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-800" href="services.html"{{active.services}} data-nav="services">Services</a></li>
+      <li><a class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-800" href="solutions.html"{{active.solutions}} data-nav="projects">Projects</a></li>
+      <li><a class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-800" href="index.html#why" data-nav="why">Why Chrisentia</a></li>
     </ul>
 
     <div class="flex items-center gap-3">
@@ -28,10 +28,10 @@
 
   <div id="mobileMenu">
     <ul>
-      <li><a href="index.html#top">About</a></li>
-      <li><a href="services.html"{{active.services}}>Services</a></li>
-      <li><a href="solutions.html"{{active.solutions}}>Projects</a></li>
-      <li><a href="index.html#why">Why Chrisentia</a></li>
+      <li><a href="index.html#top" data-nav="about">About</a></li>
+      <li><a href="services.html"{{active.services}} data-nav="services">Services</a></li>
+      <li><a href="solutions.html"{{active.solutions}} data-nav="projects">Projects</a></li>
+      <li><a href="index.html#why" data-nav="why">Why Chrisentia</a></li>
     </ul>
     <a id="mobileContact" href="#enquiry">Get in touch</a>
   </div>

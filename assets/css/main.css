@@ -131,13 +131,25 @@ section {
 }
 
 .nav-link:hover::after,
-.nav-link[aria-current="page"]::after {
+.nav-link[aria-current="page"]::after,
+.nav-link.is-current::after {
   width: 100%;
 }
 
-.nav-link[aria-current="page"] {
+/* The page you are on (Services, Projects) or, on the home page, the area
+   you have scrolled to. */
+.nav-link[aria-current="page"],
+.nav-link.is-current {
   color: #1e293b;
   font-weight: 800;
+}
+
+.nav-link::after {
+  background: linear-gradient(90deg, #0284c7, #38bdf8);
+}
+
+#mobileMenu a.is-current {
+  color: #0284c7;
 }
 
 #hamburger {
