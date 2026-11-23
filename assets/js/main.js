@@ -196,6 +196,42 @@
     });
   }
 
+  /* --- Client rail ------------------------------------------------------ */
+
+  /* Arrow buttons scroll by roughly one card. Disabled at each end so the
+     controls reflect where you actually are. */
+
+  function initRails() {
+    document.querySelectorAll('[data-rail]').forEach(function (rail) {
+      var section = rail.closest('section') || document;
+      var prev = section.querySelector('[data-rail-prev]');
+      var next = section.querySelector('[data-rail-next]');
+      if (!prev || !next) return;
+
+      function step() {
+        var card = rail.firstElementChild;
+        return card ? card.getBoundingClientRect().width + 20 : 300;
+      }
+
+      function sync() {
+        var max = rail.scrollWidth - rail.clientWidth - 2;
+        prev.disabled = rail.scrollLeft <= 2;
+        next.disabled = rail.scrollLeft >= max;
+      }
+
+      prev.addEventListener('click', function () {
+        rail.scrollBy({ left: -step(), behavior: 'smooth' });
+      });
+      next.addEventListener('click', function () {
+        rail.scrollBy({ left: step(), behavior: 'smooth' });
+      });
+
+      rail.addEventListener('scroll', sync, { passive: true });
+      window.addEventListener('resize', sync);
+      sync();
+    });
+  }
+
   /* --- Enquiry form ----------------------------------------------------- */
 
   /* Submits to Formspree over fetch so the visitor stays on the page instead
@@ -274,6 +310,7 @@
     initReveal();
     initCounters();
     initCarousels();
+    initRails();
     initEnquiryForm();
   }
 

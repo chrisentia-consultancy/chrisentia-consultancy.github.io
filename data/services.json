@@ -1,43 +1,43 @@
 [
   {
     "id": "machine-vision",
-    "icon": "center_focus_strong",
+    "icon": "machine-vision",
     "title": "Machine Vision",
     "summary": "Vision-based inspection, detection, tracking and counting systems operating with real-time capability."
   },
   {
     "id": "robotics",
-    "icon": "precision_manufacturing",
+    "icon": "robotics",
     "title": "Robotics",
     "summary": "Robotic arm pick-and-place, material handling and autonomous vehicle operation, integrated into existing production environments."
   },
   {
     "id": "digital-twin",
-    "icon": "model_training",
+    "icon": "digital-twin",
     "title": "Digital Twin",
     "summary": "Virtual replicas of plant and equipment for live monitoring, adaptive control and predictive maintenance."
   },
   {
     "id": "iiot",
-    "icon": "sensors",
+    "icon": "iiot",
     "title": "Industrial IoT (IIoT)",
     "summary": "Connected sensors and machines delivering live production data to centralised interfaces and control systems."
   },
   {
     "id": "applied-ai",
-    "icon": "neurology",
+    "icon": "applied-ai",
     "title": "Applied AI",
     "summary": "Machine learning on operational data for forecasting, classification, anomaly detection and natural language interfaces."
   },
   {
     "id": "scada-plc",
-    "icon": "schema",
+    "icon": "scada-plc",
     "title": "SCADA & PLC Control Systems",
     "summary": "PLC programming, HMI development and SCADA integration for plant automation and supervisory control."
   },
   {
     "id": "mechanical-design",
-    "icon": "3d_rotation",
+    "icon": "mechanical-design",
     "title": "Mechanical Design & Simulation",
     "summary": "Mechanical and facility design, CAD modelling, FEA and CFD analysis.",
     "tools": "SolidWorks · CATIA · Revit · Navisworks"

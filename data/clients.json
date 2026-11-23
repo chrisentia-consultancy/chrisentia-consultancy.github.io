@@ -1,15 +1,73 @@
 {
-  "_comment_logos": "Drop logo files into images/clients/ named exactly after the slug below. Any extension works — svg, png, jpg, jpeg, webp, avif — the build finds whichever is there. A client with no logo file renders as a text tile automatically, so this list is safe to publish before all logos arrive.",
-  "_comment_permission": "Only set published:true once that client has agreed to be named. Anything false is skipped entirely.",
+  "_comment_logos": "Logo files live in images/clients/ named after the slug. Any extension works; the build finds whichever is there. A client with no logo renders as a text tile.",
+  "_comment_blurb": "TODO: 'blurb' is what Chrisentia actually does with that client, in one sentence. Left empty deliberately rather than invented. A card with no blurb renders as logo and sector only, so the section works now and improves as each line is confirmed.",
+  "_comment_background": "Optional. A transparent or dark image in images/clients/bg/<slug>.png gives that card an image backdrop. Cards without one use a plain tint. Mixing a few image cards among plain ones reads better than all of them having images.",
+  "_comment_relationship": "Shown under the name. Use Client or Partner accurately, not interchangeably.",
 
   "clients": [
-    { "slug": "unilever",         "name": "Unilever",                     "published": true },
-    { "slug": "wichy-plantation", "name": "Wichy Plantation",             "published": true },
-    { "slug": "harumi-holdings",  "name": "Harumi Holdings",              "published": true },
-    { "slug": "pencil-cut",       "name": "Pencil Cut",                   "published": true },
-    { "slug": "neuralis-labs",    "name": "Neuralis Labs (Pvt) Ltd",      "published": true },
-    { "slug": "nature-food-grade","name": "Nature Food Grade (Pvt) Ltd",  "published": true },
-    { "slug": "wichy-beverages",  "name": "Wichy Beverages",              "published": true },
-    { "slug": "trade-promoters",  "name": "Trade Promoters Limited",      "published": true }
+    {
+      "slug": "unilever",
+      "name": "Unilever",
+      "sector": "Consumer Goods",
+      "relationship": "Client",
+      "blurb": "",
+      "published": true
+    },
+    {
+      "slug": "wichy-plantation",
+      "name": "Wichy Plantation",
+      "sector": "Agriculture & Processing",
+      "relationship": "Client",
+      "blurb": "",
+      "published": true
+    },
+    {
+      "slug": "wichy-beverages",
+      "name": "Wichy Beverages",
+      "sector": "Food & Beverage",
+      "relationship": "Client",
+      "blurb": "",
+      "published": true
+    },
+    {
+      "slug": "harumi-holdings",
+      "name": "Harumi Holdings",
+      "sector": "Manufacturing",
+      "relationship": "Client",
+      "blurb": "",
+      "published": true
+    },
+    {
+      "slug": "nature-food-grade",
+      "name": "Nature's Food Grade",
+      "sector": "Food Processing",
+      "relationship": "Client",
+      "blurb": "",
+      "published": true
+    },
+    {
+      "slug": "trade-promoters",
+      "name": "Trade Promoters Limited",
+      "sector": "Trading & Distribution",
+      "relationship": "Client",
+      "blurb": "",
+      "published": true
+    },
+    {
+      "slug": "neuralis-labs",
+      "name": "Neuralis Labs",
+      "sector": "Technology",
+      "relationship": "Partner",
+      "blurb": "",
+      "published": true
+    },
+    {
+      "slug": "pencil-cut",
+      "name": "Pencil Cut",
+      "sector": "Advertising",
+      "relationship": "Partner",
+      "blurb": "",
+      "published": true
+    }
   ]
 }

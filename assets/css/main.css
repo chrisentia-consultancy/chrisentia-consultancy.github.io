@@ -393,96 +393,200 @@ section.bg-surface-dim {
   font-weight: 700;
 }
 
-/* --- Client logo marquee ------------------------------------------------- */
+/* --- Client rail --------------------------------------------------------- */
 
-.logo-marquee {
-  overflow: hidden;
-  position: relative;
-  /* Fade the edges so logos slide in and out rather than popping. */
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+.client-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(16rem, 19rem);
+  gap: 1.25rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding-bottom: 0.75rem;
+  /* Hide the scrollbar but keep the scrolling. */
+  scrollbar-width: none;
 }
 
-.logo-marquee__track {
+.client-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.client-rail > * {
+  scroll-snap-align: start;
+}
+
+.client-rail__controls {
   display: flex;
-  align-items: center;
-  gap: 6rem;
-  width: max-content;
-  animation: logo-scroll 55s linear infinite;
+  gap: 0.5rem;
 }
 
-.logo-marquee:hover .logo-marquee__track,
-.logo-marquee:focus-within .logo-marquee__track {
-  animation-play-state: paused;
-}
-
-/* The track is rendered twice, so shifting by exactly half loops seamlessly. */
-@keyframes logo-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-.logo-marquee__item {
-  flex: 0 0 auto;
-  height: 7rem;
+.rail-btn {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(45, 55, 72, 0.15);
+  background: #ffffff;
+  color: #2d3748;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
 }
 
-.logo-marquee__item img {
-  max-height: 6rem;
-  width: auto;
-  object-fit: contain;
-  opacity: 0.9;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+.rail-btn:hover {
+  background: #2d3748;
+  border-color: transparent;
+  color: #ffffff;
 }
 
-.logo-marquee__item img:hover {
-  opacity: 1;
-  transform: scale(1.05);
+.rail-btn[disabled] {
+  opacity: 0.3;
+  cursor: default;
 }
 
-/* Fallback tile for a client whose logo file isn't in yet. */
-.logo-marquee__item--text span {
-  display: inline-flex;
-  align-items: center;
-  height: 5rem;
-  padding: 0 2rem;
-  border: 1px solid rgba(45, 55, 72, 0.12);
-  border-radius: 9999px;
-  font-weight: 700;
-  font-size: 1.15rem;
+.rail-btn[disabled]:hover {
+  background: #ffffff;
+  color: #2d3748;
+  border-color: rgba(45, 55, 72, 0.15);
+}
+
+/* --- Client card --------------------------------------------------------- */
+
+.client-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(45, 55, 72, 0.09);
+  background: #ffffff;
+  box-shadow: 0 4px 14px -8px rgba(45, 55, 72, 0.25);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+
+.client-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 40px -18px rgba(45, 55, 72, 0.35);
+}
+
+.client-card__top {
+  position: relative;
+  flex: 1;
+  min-height: 11rem;
+  justify-content: space-between;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: linear-gradient(150deg, #f5f8fb, #e8f0f7);
+}
+
+/* A card with a backdrop image goes dark so the text stays readable. */
+.client-card__top.has-backdrop {
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+}
+
+.client-card__top.has-backdrop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.6));
+}
+
+.client-card__top.has-backdrop > * {
+  position: relative;
+  z-index: 1;
+}
+
+.client-card__sector {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.has-backdrop .client-card__sector {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.client-card__blurb {
+  font-size: 0.95rem;
+  line-height: 1.55;
   color: #475569;
-  white-space: nowrap;
-  background: #fafbfc;
-  transition: border-color 0.3s ease, color 0.3s ease;
 }
 
-.logo-marquee__item--text span:hover {
-  border-color: rgba(45, 55, 72, 0.3);
+.has-backdrop .client-card__blurb {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* No blurb yet: the panel shrinks rather than leaving a tall blank. */
+.client-card__top:not(:has(.client-card__blurb)) {
+  min-height: 5.5rem;
+}
+
+.client-card__foot {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.1rem 1.5rem;
+  background: #ffffff;
+  border-top: 1px solid rgba(45, 55, 72, 0.08);
+}
+
+.client-card__logo {
+  flex: 0 0 auto;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.85rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafbfc;
+  border: 1px solid rgba(45, 55, 72, 0.07);
+}
+
+.client-card__logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.client-card__wordmark {
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.15;
+  color: #475569;
+  padding: 0.25rem;
+}
+
+.client-card__meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.client-card__name {
+  font-weight: 800;
   color: #1e293b;
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
+.client-card__role {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .logo-marquee {
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-
-  .logo-marquee__track {
-    animation: none;
-    flex-wrap: wrap;
-    width: 100%;
-    justify-content: center;
-    gap: 2rem 3rem;
-  }
-
-  /* With no motion the duplicate track would just repeat every logo. */
-  .logo-marquee__item[aria-hidden="true"] {
-    display: none;
-  }
+  .client-rail { scroll-behavior: auto; }
+  .client-card:hover { transform: none; }
 }
 
 /* --- Footer -------------------------------------------------------------- */
@@ -610,6 +714,230 @@ section.bg-surface-dim {
 @media (prefers-reduced-motion: reduce) {
   .stat {
     opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Icon tiles ---------------------------------------------------------- */
+
+.icon-tile {
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  color: #2d3748;
+  background: linear-gradient(145deg, rgba(45, 55, 72, 0.09), rgba(45, 55, 72, 0.04));
+  border: 1px solid rgba(45, 55, 72, 0.07);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              background 0.45s ease, color 0.45s ease;
+}
+
+.icon-tile__svg {
+  width: 1.95rem;
+  height: 1.95rem;
+}
+
+.service-item:hover .icon-tile,
+.hover-card:hover .icon-tile {
+  transform: translateY(-2px) scale(1.06);
+  background: linear-gradient(145deg, #2d3748, #475569);
+  color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-item:hover .icon-tile,
+  .hover-card:hover .icon-tile {
+    transform: none;
+  }
+}
+
+/* --- Clickable project cards --------------------------------------------- */
+
+.project-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.project-card-link__cta,
+.project-entry__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 1rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #2d3748;
+  transition: gap 0.3s ease;
+}
+
+.project-card-link:hover .project-card-link__cta,
+.project-entry__cta:hover {
+  gap: 0.75rem;
+}
+
+.project-entry__media {
+  display: block;
+}
+
+.project-entry__title {
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-entry__title:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.project-entry__cta {
+  margin-top: 1.5rem;
+  text-decoration: none;
+}
+
+/* Sibling cards at the foot of a project page. */
+.sibling-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.sibling-card .project-media {
+  aspect-ratio: 16 / 10;
+  border-radius: 1.1rem;
+}
+
+.sibling-card:hover h3 {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Body copy on a project page. */
+.project-prose p {
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: #475569;
+}
+
+.project-prose p + p {
+  margin-top: 1.25rem;
+}
+
+/* --- Sustainability panel ------------------------------------------------ */
+
+.sustainability-panel {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  border-radius: 2rem;
+  padding: 2.5rem;
+  background:
+    radial-gradient(120% 120% at 100% 0%, rgba(56, 189, 248, 0.18), transparent 55%),
+    linear-gradient(150deg, #1e293b, #0f172a);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (min-width: 1024px) {
+  .sustainability-panel {
+    grid-template-columns: 1.4fr 1fr;
+    gap: 4rem;
+    padding: 4rem;
+    border-radius: 3rem;
+    align-items: center;
+  }
+}
+
+.sustainability-list {
+  list-style: none;
+  margin: 0 0 2.25rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.sustainability-list li {
+  position: relative;
+  padding-left: 1.9rem;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.55;
+}
+
+.sustainability-list li::before {
+  content: '';
+  position: absolute;
+  left: 0.3rem;
+  top: 0.35rem;
+  width: 0.45rem;
+  height: 0.8rem;
+  border: solid rgba(125, 211, 252, 0.9);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.sustainability-panel__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  color: #0f172a;
+  padding: 0.9rem 1.75rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: gap 0.3s ease, transform 0.3s ease;
+}
+
+.sustainability-panel__cta:hover {
+  gap: 0.9rem;
+  transform: translateY(-2px);
+}
+
+.sustainability-panel__sdg {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+
+.sdg-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.25rem;
+  border-radius: 1.1rem;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.35s ease, transform 0.35s ease;
+}
+
+.sdg-chip:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-3px);
+}
+
+.sdg-chip span {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.sdg-chip small {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sustainability-panel__cta:hover,
+  .sdg-chip:hover {
     transform: none;
   }
 }
